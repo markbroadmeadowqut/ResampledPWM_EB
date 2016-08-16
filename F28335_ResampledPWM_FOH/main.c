@@ -32,9 +32,9 @@ void init() {
 	MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
 
 	// INITIALISE PERIPHERALS
+	initPWM();
 	initDDS();
 	initTimer();
-	initPWM();
 
 	PieCtrlRegs.PIECTRL.bit.ENPIE = 1;     // Enable the PIE block
 

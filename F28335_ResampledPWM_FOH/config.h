@@ -12,5 +12,11 @@
 #define true !false
 
 #define PI 3.14159265
+// Choosing to name all variables that represent values in the ePWM1 registers with the prefix sw meaning "software" due to the fact that strings like "TBPRD" have already been given a definition in the TI header files
+#define SWTBPRD 62500  // Therefore fc=1/(2*62500/150e6)=1200Hz
+#define FS 40000.0
+#define TBCLK 150000000.0
+#define FOH_SCALE ((FS/TBCLK)-1.0)
+#define FOH_SCALE2 (FS/TBCLK)
 
 #endif /* CONFIG_H_ */

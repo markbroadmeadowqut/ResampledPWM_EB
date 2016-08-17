@@ -11,14 +11,14 @@
 
 Uint16 ddsTable[1024];
 
-volatile Uint32 phaseInc = (Uint32) 0x0F5C28F6;	// 2kHz @ 30us service interval (check this)
-volatile Uint32 phaseAccumulator = 0;
+volatile Uint32 phaseInc = 0x0624DD3L;	// = 6442451 (f0 = 60Hz = 6442451/(2^32*25e-6) )
+volatile Uint32 phaseAccumulator = 0x0624DD3L; // Initialise phaseAccumulator at 1*phaseInc so that 2*phaseInc is loaded into phaseAccumulator by the end of the first call to isr_cpu_timer0; that way the modulating signal has correct phase for the second and all subsequent calls to isr_cpu_timer0
 
 void generateTable() {
 	Uint16 i;
-
+	
 	for (i = 0; i < 1024; i++) {
-		ddsTable[i] = (32768.0*0.8*sin(2*PI*i/1024.0))+32768.0;
+		ddsTable[i] = floor((0.5*SWTBPRD*0.8*sin(2*PI*i/1024.0))+(0.5*SWTBPRD)+0.5); // Note that the scaling by 18750 rather than 32768 is due to the fact that the carrier waveform effectively only varies between 0 and TBPRD rather than 0 and 2^16
 	}
 }
 

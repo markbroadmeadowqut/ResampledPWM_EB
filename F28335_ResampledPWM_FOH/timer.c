@@ -13,7 +13,7 @@ volatile Uint16 newSample = 0x0000;
 volatile Uint16 prevSample = 0x0000;
 
 volatile float32 calc1;
-volatile float32 calc2;
+volatile float32 ti;
 
 interrupt void isr_cpu_timer0(void);
 
@@ -43,31 +43,17 @@ interrupt void isr_cpu_timer0(void)
 	swTBCTR = EPwm1Regs.TBCTR;   			// Sample EPwm1 counter (Is this the correct way to read from address 0x0004??)
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	
-	
-	//DEBUG
-	//EPwm1Regs.CMPA.half.CMPA = newSample;
-
-	//TBCTR +/- {(TBCTR – prevSample)/[(newSample – prevSample)*(fs/TBCLK) +/– 1]}
-
 	// Update CMPA register (and perform FOH calcs in the same line; hopefully it is faster to do it this way?)
 	if(swCTRDIR) {
-		calc1 = ((newSample - prevSample)*FOH_SCALE2) + 1.0;
-		calc2 = floor((swTBCTR + ((swTBCTR - newSample)/calc1)) + 0.5);
-
-		//calc1 = (newSample-prevSample)*FOH_SCALE;
-		//calc2 = floor(((swTBCTR-newSample)/calc1)+swTBCTR+0.5);
-		//EPwm1Regs.CMPA.half.CMPA = calc2;
+		calc1=((newSample-prevSample)*FOH_SCALE3)-FOH_SCALE4; 
+		ti=(swTBCTR-newSample)/calc1;
+		EPwm1Regs.CMPA.half.CMPA=floor((swTBCTR+FOH_SCALE4*ti)+0.5);
 	} else {
-		calc1 = ((newSample - prevSample)*FOH_SCALE2) - 1.0;
-		calc2 = floor((swTBCTR - ((swTBCTR - newSample)/calc1)) + 0.5);
-
-		//calc1 = (prevSample-newSample)*FOH_SCALE;
-		//calc2 = floor(((swTBCTR-newSample)/calc1)+swTBCTR+0.5);
-		//EPwm1Regs.CMPA.half.CMPA = calc2;
+		calc1=((newSample-prevSample)*FOH_SCALE3)+FOH_SCALE4; 
+		ti=(swTBCTR-newSample)/calc1;
+		EPwm1Regs.CMPA.half.CMPA=floor((swTBCTR-FOH_SCALE4*ti)+0.5);
 	}
 		
-	EPwm1Regs.CMPA.half.CMPA = newSample;
-
 	prevSample = newSample;       // Sample the modulating waveform at this point in the interrupt so that the write to CMPA happens sooner
 	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt
 	// Should make sure that this ISR gets first priority if there are any other ISRs that might be called at the same time or before it.

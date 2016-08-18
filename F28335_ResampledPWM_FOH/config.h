@@ -18,5 +18,6 @@
 #define TBCLK 150000000.0
 #define FOH_SCALE ((FS/TBCLK)-1.0)
 #define FOH_SCALE2 (FS/TBCLK)
-
+#define FOH_SCALE3 40000.0 // =FS in Hz (should be a float)
+#define FOH_SCALE4 150000000.0 // =TBCLK in Hz (should be a float)
 #endif /* CONFIG_H_ */

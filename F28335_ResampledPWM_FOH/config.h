@@ -20,5 +20,4 @@
 #define FOH_SCALE2 (FS/TBCLK)
 #define FOH_SCALE3 40000.0 // =FS in Hz (should be a float)
 #define FOH_SCALE4 150000000.0 // =TBCLK in Hz (should be a float)
-//TODO: Refactor to use original FS and TBCLK definitions
 #endif /* CONFIG_H_ */

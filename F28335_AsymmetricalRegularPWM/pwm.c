@@ -23,10 +23,10 @@ void initPWM() {
 	EPwm1Regs.TBCTL.bit.HSPCLKDIV = TB_DIV1; // TBCLK = SYSCLKOUT
 	EPwm1Regs.TBCTL.bit.CLKDIV = TB_DIV1; // TBCLK = SYSCLKOUT
 	
-	EPwm1Regs.CMPCTL.bit.SHDWAMODE = CC_IMMEDIATE; // load CMPA immediately
-	EPwm1Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE; 
-	EPwm1Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO; // Don't care about this load functionality as we are using immediate load mode
-	EPwm1Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO; 
+	EPwm1Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW; // load CMPA only at the carrier peaks and troughs
+	EPwm1Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW; 
+	EPwm1Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO_PRD; // Load the shadow register into the active CMPA register at both the peaks and troughs of the carrier waveform
+	EPwm1Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO_PRD; 
 	
 	EPwm1Regs.AQCTLA.bit.CAU = AQ_CLEAR; // I want my PWM signal to be CLEARED to low when the carrier is increasing and the modulating signal falls below it...
 	EPwm1Regs.AQCTLA.bit.CAD = AQ_SET; // ...and to be SET to high when the carrier is decreasing and the modulating signal rises above it.   
@@ -41,12 +41,16 @@ void initPWM() {
 	
 	EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 
+	EPwm1Regs.ETSEL.bit.INTEN = 1;
+	EPwm1Regs.ETSEL.bit.INTSEL = 2;  // first ISR will occur when TBCTR = TBPRD (because TBCTR is initialised counting up)
+	EPwm1Regs.ETPS.bit.INTPRD =  1; // generate an ISR on the first event (but when does ETPS[INTCNT] reset??)
+				
 	GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 1;	// EPWM1A on GPIO0
 	GpioCtrlRegs.GPADIR.bit.GPIO0 = 1;	// Output on GPIO0
 
 	// DEBUG
 	//EPwm1Regs.CMPA.half.CMPA = 31250;	// 50% duty
-
+	
 
 	EDIS;
 }

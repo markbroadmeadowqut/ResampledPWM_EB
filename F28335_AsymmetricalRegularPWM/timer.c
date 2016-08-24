@@ -9,8 +9,6 @@
 #include "dds.h"
 #include <math.h>
 
-volatile float32 newSample = 0.0;
-
 interrupt void EPwm1_isr(void);
 
 void initTimer() {
@@ -34,16 +32,16 @@ void initTimer() {
 interrupt void EPwm1_isr(void) // Can I program what happens in this interrupt?
 {
 	Uint16 INTSEL_current;
-	
+	float32 newSample;	
 	//CpuTimer0.InterruptCount++;
 
 	//DEBUG
 	//GpioDataRegs.GPASET.bit.GPIO2 = 1;
-
-	EPwm1Regs.CMPA.half.CMPA=newSample;
-
+	
 	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt
-			
+	
+	EPwm1Regs.CMPA.half.CMPA=newSample;
+		
 	// Toggle ETSEL[INTSEL] so that the interrupt will be triggered by the next appropriate event (i.e. TBCTR=0 or TBCTR=TBPRD)
 	INTSEL_current = EPwm1Regs.ETSEL.bit.INTSEL;
 	if(INTSEL_current == 2) {  

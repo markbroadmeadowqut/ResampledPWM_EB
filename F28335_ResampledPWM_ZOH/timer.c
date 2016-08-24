@@ -9,9 +9,6 @@
 #include "dds.h"
 #include <math.h>
 
-volatile float32 newSample = 0.0;
-volatile float32 prevSample = 0.0;
-
 interrupt void isr_cpu_timer0(void);
 
 void initTimer() {
@@ -39,18 +36,17 @@ void initTimer() {
 interrupt void isr_cpu_timer0(void)
 {
 
+	float32 newSample;
+
 	//CpuTimer0.InterruptCount++;
 		
 	//DEBUG
 	//GpioDataRegs.GPASET.bit.GPIO2 = 1;
+
+	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt
 		
 	// Enter the ZOH value into the register
 	EPwm1Regs.CMPA.half.CMPA=newSample;
-
-
-	prevSample = newSample;       // Sample the modulating waveform at this point in the interrupt so that the write to CMPA happens sooner
-	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt
-	// Should make sure that this ISR gets first priority if there are any other ISRs that might be called at the same time or before it.
 			
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;

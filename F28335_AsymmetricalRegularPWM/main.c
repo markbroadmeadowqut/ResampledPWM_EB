@@ -7,7 +7,7 @@
 
 #include "dds.h"
 #include "pwm.h"
-#include "timer.h"
+/#include "timer.h"
 
 extern Uint16 RamfuncsLoadStart;
 extern Uint16 RamfuncsLoadEnd;
@@ -19,7 +19,7 @@ void init() {
 
 	DINT;			// Disable interrupts
 
-	InitPieCtrl();	// Initialise the PIE control registers to their default state.
+	InitPieCtrl();	// Initialise the P/IE control registers to their default state.
 
 	// Disable CPU interrupts and clear all CPU interrupt flags:
 	IER = 0x0000;
@@ -34,7 +34,7 @@ void init() {
 	// INITIALISE PERIPHERALS
 	initPWM();
 	initDDS();
-	initTimer();
+	//initTimer();
 
 	PieCtrlRegs.PIECTRL.bit.ENPIE = 1;     // Enable the PIE block
 

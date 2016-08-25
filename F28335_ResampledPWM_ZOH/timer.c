@@ -35,19 +35,47 @@ void initTimer() {
 #pragma CODE_SECTION(isr_cpu_timer0, "ramfuncs");
 interrupt void isr_cpu_timer0(void)
 {
+     	Uint16 swCTRDIR;
+		Uint16 swTBCTR;
+		Uint16 CMPA_value;
+		float32 newSample;
 
-	float32 newSample;
+		//CpuTimer0.InterruptCount++;
 
-	//CpuTimer0.InterruptCount++;
+		swTBCTR = EPwm1Regs.TBCTR;   			// Sample EPwm1 counter (Is this the correct way to read from address 0x0004??)
+		swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
+
+		//DEBUG
+		//GpioDataRegs.GPASET.bit.GPIO2 = 1;
+
+		newSample = serviceDDS();
 		
-	//DEBUG
-	//GpioDataRegs.GPASET.bit.GPIO2 = 1;
+		// Update CMPA register (and perform FOH calcs in the same line; hopefully it is faster to do it this way?)
+		if(swCTRDIR) {
+			CMPA_value=newSample;
+			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
+			//DEBUG
+			//GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+			if(CMPA_value<(swTBCTR+1)) {
+				EALLOW;
+				EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
+				EDIS;
+				EPwm1Regs.AQSFRC.bit.OTSFA = 1;
+			}
+		} else {
+			CMPA_value=newSample;
+			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
+			//DEBUG
+			//GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+			if(CMPA_value>(swTBCTR-1)) {
+				EALLOW;
+				EPwm1Regs.AQSFRC.bit.ACTSFA = 0;	// Set output high on software force
+				EDIS;
+				EPwm1Regs.AQSFRC.bit.OTSFA = 1;
+			}
+		}
 
-	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt
 		
-	// Enter the ZOH value into the register
-	EPwm1Regs.CMPA.half.CMPA=newSample;
-			
-	// Acknowledge this interrupt to receive more interrupts from group 1
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+		// Acknowledge this interrupt to receive more interrupts from group 1
+		PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 }

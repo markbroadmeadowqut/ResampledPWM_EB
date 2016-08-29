@@ -11,8 +11,8 @@
 
 Uint16 ddsTable[1024];
 
-volatile Uint32 phaseInc = 0x0624DD3L;	// = 6442451 (f0 = 60Hz = 6442451/(2^32*25e-6) )
-volatile Uint32 phaseAccumulator = 0x0624DD3L; // Initialise phaseAccumulator at 1*phaseInc so that 2*phaseInc is loaded into phaseAccumulator by the end of the first call to isr_cpu_timer0; that way the modulating signal has correct phase for the second and all subsequent calls to isr_cpu_timer0
+volatile Uint32 phaseInc = 0x0147AE14;	// = 21474836 (f0 ~= 50Hz = 21474836/(2^32*100e-6) )
+volatile Uint32 phaseAccumulator = 0x0147AE14; // Initialise phaseAccumulator at 1*phaseInc so that 2*phaseInc is loaded into phaseAccumulator by the end of the first call to isr_cpu_timer0; that way the modulating signal has correct phase for the second and all subsequent calls to isr_cpu_timer0
 
 void generateTable() {
 	Uint16 i;

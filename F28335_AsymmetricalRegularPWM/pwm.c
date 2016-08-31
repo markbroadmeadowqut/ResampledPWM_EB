@@ -8,12 +8,14 @@
 #include "config.h"
 #include "dds.h"
 
+volatile Uint16 newSample = 0;
+
 interrupt void isr_epwm1(void);
 
 void initPWM() {
 	
 
-	EPwm1Regs.TBPRD = SWTBPRD; // fc = 1/(2*65536/TBCLK) = 1/(2*65535/150000000) = 1.1444kHz
+	EPwm1Regs.TBPRD = SWTBPRD;
 	EPwm1Regs.TBPHS.all = 0; // Set Phase register to zero (don't plan to use synchronisation functionality at this stage)
 	EPwm1Regs.TBCTR = 0; // clear TB counter
 	
@@ -33,7 +35,7 @@ void initPWM() {
 	//EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 
 	EPwm1Regs.ETSEL.bit.INTEN = 1;
-	EPwm1Regs.ETSEL.bit.INTSEL = 2;  // first ISR will occur when TBCTR = TBPRD (because TBCTR is initialised counting up)
+	EPwm1Regs.ETSEL.bit.INTSEL = ET_CTR_PRD;  // first ISR will occur when TBCTR = TBPRD (because TBCTR is initialised counting up)
 	EPwm1Regs.ETPS.bit.INTPRD =  1; // generate an ISR on the first event (but when does ETPS[INTCNT] reset??)
 				
 	EALLOW;
@@ -74,7 +76,6 @@ void pwmStop() {
 interrupt void isr_epwm1(void)
 {
 	Uint16 INTSEL_current;
-	Uint16 newSample;	
 
 	//DEBUG
 	//GpioDataRegs.GPASET.bit.GPIO2 = 1;
@@ -83,15 +84,19 @@ interrupt void isr_epwm1(void)
 		
 	// Toggle ETSEL[INTSEL] so that the interrupt will be triggered by the next appropriate event (i.e. TBCTR=0 or TBCTR=TBPRD)
 	INTSEL_current = EPwm1Regs.ETSEL.bit.INTSEL;
-	if(INTSEL_current == 2) {  
+	if(INTSEL_current == 0x2) {
 		EPwm1Regs.ETSEL.bit.INTSEL = 1;
 	} else {
 		EPwm1Regs.ETSEL.bit.INTSEL = 2;
 	}
 
-	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt	
+	newSample = serviceDDS();	// Precompute sample for the next triggering of this interrupt
 	
 	// Acknowledge this interrupt to receive more interrupts from group 3
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;
+
+	EPwm1Regs.ETCLR.bit.INT = 1;
+
+
 }
 

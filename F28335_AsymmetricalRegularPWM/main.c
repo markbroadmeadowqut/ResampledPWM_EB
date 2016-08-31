@@ -7,7 +7,7 @@
 
 #include "dds.h"
 #include "pwm.h"
-/#include "timer.h"
+//#include "timer.h"
 
 extern Uint16 RamfuncsLoadStart;
 extern Uint16 RamfuncsLoadEnd;

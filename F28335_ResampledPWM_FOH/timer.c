@@ -17,7 +17,7 @@ interrupt void isr_cpu_timer0(void);
 void initTimer() {
 	InitCpuTimers();
 	//double timerPrd = 1000000/(double)fs;
-	ConfigCpuTimer(&CpuTimer0, 150, 100); 			// Set clock to 150MHz, timer period to 25us period so that fs=10kHz (would be good to make this automatically updated with fs in config.h)
+	ConfigCpuTimer(&CpuTimer0, 150, 80); 			// Set clock to 150MHz, timer period to 25us period so that fs=10kHz (would be good to make this automatically updated with fs in config.h)
 	CpuTimer0Regs.TCR.all = 0x4001; 				// Start CPU Timer0. Use write-only instruction to set TSS bit = 0
 
 	//DEBUG

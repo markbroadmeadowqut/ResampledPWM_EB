@@ -64,4 +64,3 @@ void pwmStop() {
 	EPwm1Regs.AQSFRC.bit.OTSFA = 1;
 	EDIS;
 }
-

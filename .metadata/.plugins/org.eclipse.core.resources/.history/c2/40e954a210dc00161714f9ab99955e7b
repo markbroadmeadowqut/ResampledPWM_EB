@@ -1,0 +1,28 @@
+#include "DSP281x_Device.h"
+
+/*** Global variables used by ADC_ISR() (Labs 6 and 7) ***/
+#define AdcBuf_len	511				// ADC buffer length
+Uint16 AdcBuf_A[AdcBuf_len];			// ADC buffer allocation
+Uint16 AdcBuf_B[AdcBuf_len];
+/*********************************************************************/
+interrupt void ADC_ISR(void)		// 0x000D4A  ADCINT (ADC)
+{
+static Uint16 *AdcBuf_A_ptr = AdcBuf_A;			// Pointer to buffer
+static Uint16 *AdcBuf_B_ptr = AdcBuf_B;
+
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;		// Must acknowledge the PIE group
+
+/*** Manage the ADC registers ***/
+	AdcRegs.ADCTRL2.bit.RST_SEQ1 = 1;			// Reset SEQ1 to CONV00 state
+	AdcRegs.ADCST.bit.INT_SEQ1_CLR = 1;			// Clear ADC SEQ1 interrupt flag
+
+/*** Read the ADC result ***/
+	*AdcBuf_A_ptr++ = AdcRegs.ADCRESULT0 >> 4;	// Read the result
+	*AdcBuf_B_ptr++ = AdcRegs.ADCRESULT1 >> 4;
+/*** Brute-force the circular buffer ***/
+	if( AdcBuf_A_ptr == (AdcBuf_A + AdcBuf_len) )
+	{
+		AdcBuf_A_ptr = AdcBuf_A;					// Rewind the pointer to beginning
+		AdcBuf_B_ptr = AdcBuf_B;
+	}
+} // end ADCINT_ISR()

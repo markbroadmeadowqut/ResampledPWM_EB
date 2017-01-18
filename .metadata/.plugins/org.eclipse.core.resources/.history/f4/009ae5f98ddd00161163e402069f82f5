@@ -1,0 +1,93 @@
+/*
+ * CMPA_calc.c
+ *
+ *  Created on: 16Jan.,2017
+ *      Author: Edward
+ */
+
+
+volatile Uint16 newSample = 0;
+volatile Uint16 prevSample = 0;
+
+interrupt void isr_CMPA_calc(void);
+
+
+void initCMPAcalc() {
+	EALLOW;
+	PieVectTable.ADCINT1 = &isr_CMPA_calc;
+	EDIS;
+
+	PieCtrlRegs.PIEIER1.bit.INTx1 = 1;     // Enable PIE Group 1, INT1, ADCINT1
+	IER |= M_INT1;
+}
+
+
+#pragma CODE_SECTION(isr_CMPA_calc, "ramfuncs");
+interrupt void isr_CMPA_calc(void)
+{
+	Uint16 swCTRDIR;
+	Uint16 swTBCTR;
+	Uint16 calc1;
+	int32 ti; // Am I correct in assuming that an int32 will have a sign bit (and thus range between -2.15 billion and +2.15 billion?)?
+	int32 CMPA_value;
+
+	newSample = AdcResult.ADCRESULT0;	// Are there any other steps I need to take to read from the ADC result register (e.g. enable Peripheral Frame 0?)?
+
+	// How do I read to the first 12 bits of newsample?
+
+	//CpuTimer0.InterruptCount++;
+
+	swTBCTR = EPwm1Regs.TBCTR;   			// Sample EPwm1 counter (Is this the correct way to read from address 0x0004??)
+	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
+
+	//DEBUG
+	//GpioDataRegs.GPASET.bit.GPIO2 = 1;
+
+	// Update CMPA register
+	if(swCTRDIR) {
+		calc1=(FOH_SCALE1+prevSample)-newSample;
+		// Note that calc1 is equivalent to the negative of the modulating signal slope relative to the carrier slope in this calculation.
+		// If it were to have a value of zero then this would imply that the modulating signal has the same slope as the carrier (with the same sign); in principle this should
+		// never occur for modulating signals that are band-limited to half the carrier frequency.
+		// It has units of register values (in decimal) per resampling period; can take on any value from 0 to 2*TBCLK/FS=6000 because (prevSample-newSample) is limited to the range [-3000,3000].
+		// Forcing (FOH_SCALE1+prevSample) to happen first should remove any possibility of an intermediate step in the calculation of calc1 that is negative.
+		ti=((swTBCTR-newSample)*FOH_SCALE2)/(-calc1); // ti has units of RTDS timesteps/FOH_SCALE2 ~= 38pS.
+		// The term (swTBCTR-newSample) will range between -4095 and +4095 (not sure what the range would be if I change the switching
+	    // frequency); thus the term ((swTBCTR-newSample)*FOH_SCALE2) will range between -2^31 and +2^31 before being divided by calc1.
+		// Smallest non-zero value that ti can take is 1*524000/6000=87, thus the effective resolution is 87*38pS=4.88nS. Resolution of ti is in general given
+		// by the formula timestep/(2^(ADC_bits)-1). Range of interest of ti will be (0,FOH_SCALE2].
+		if(ti<=0) {
+			EALLOW;
+			EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
+			EDIS;
+			EPwm1Regs.AQSFRC.bit.OTSFA = 1;
+		}
+		//CMPA_value=floor((swTBCTR+(FOH_SCALE4*ti))+0.5);
+		CMPA_value=swTBCTR+(FOH_SCALE3*ti);
+		EPwm1Regs.CMPA.half.CMPA=CMPA_value;
+		//DEBUG
+		//GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+	} else {
+		calc1=((newSample-prevSample)*FOH_SCALE3)+FOH_SCALE4;
+		ti=(swTBCTR-newSample)/calc1;
+		if(ti<=0) {
+			EALLOW;
+			EPwm1Regs.AQSFRC.bit.ACTSFA = 0;	// Set output high on software force
+			EDIS;
+			EPwm1Regs.AQSFRC.bit.OTSFA = 1;
+		}
+		CMPA_value=swTBCTR-(FOH_SCALE4*ti);
+		EPwm1Regs.CMPA.half.CMPA=CMPA_value;
+		//DEBUG
+		//GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+	}
+
+	prevSample = newSample;       // Push newSample back on to prevSample at this point in the interrupt so that the write to CMPA happens sooner
+
+	// DEBUG
+	//EPwm1Regs.CMPA.half.CMPA=newSample;
+
+
+	// Acknowledge this interrupt to receive more interrupts from group 1
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}

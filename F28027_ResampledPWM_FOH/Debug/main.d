@@ -27,8 +27,6 @@ main.obj: C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/include
 main.obj: ../config.h
 main.obj: ../pwm.h
 main.obj: ../timer.h
-main.obj: ../ADC.h
-main.obj: ../CMPA_calc.h
 
 ../main.c: 
 C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/include/DSP28x_Project.h: 
@@ -57,5 +55,3 @@ C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/include/DSP2802x_
 ../config.h: 
 ../pwm.h: 
 ../timer.h: 
-../ADC.h: 
-../CMPA_calc.h: 

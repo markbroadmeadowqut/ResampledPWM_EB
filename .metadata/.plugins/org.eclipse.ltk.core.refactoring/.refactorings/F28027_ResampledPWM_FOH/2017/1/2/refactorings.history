@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;F28027_ResampledPWM_FOH/timer.c&apos; to &apos;ADC.c&apos;" description="Rename resource &apos;timer.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="timer.c" name="ADC.c" stamp="1484171613453" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;F28027_ResampledPWM_FOH/timer.h&apos; to &apos;ADC.h&apos;" description="Rename resource &apos;timer.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="timer.h" name="ADC.h" stamp="1484171622332" updateReferences="true"/>
-</session>

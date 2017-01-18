@@ -4,12 +4,9 @@
 
 #include "DSP28x_Project.h"
 #include "config.h"
+
 #include "pwm.h"
 #include "timer.h"
-#include "ADC.h"
-#include "CMPA_calc.h"
-
-
 
 //extern Uint16 RamfuncsLoadStart;
 //extern Uint16 RamfuncsLoadEnd;
@@ -34,10 +31,8 @@ void init() {
 	//MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
 
 	// INITIALISE PERIPHERALS
-	initCMPAcalc();
 	initPWM();
-	initADC();
-	initTimer(); // Important that timer is activated AFTER the ADC and PWM have been initialised
+	initTimer();
 
 	PieCtrlRegs.PIECTRL.bit.ENPIE = 1;     // Enable the PIE block
 

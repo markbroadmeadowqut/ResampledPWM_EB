@@ -1,1 +1,5 @@
+<<<<<<< Updated upstream
 -v28 -ml -mt -g --display_error_number --diag_warning=225 --diag_wrap=off -z -m"F28027_ResampledPWM_FOH.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/lib" -i"C:/ti/controlSUITE/device_support/f2802x/v129/DSP2802x_headers/cmd" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="F28027_ResampledPWM_FOH_linkInfo.xml" --rom_model -o "C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/Debug/F28027_ResampledPWM_FOH.out"
+=======
+-v28 -ml -mt -g --diag_warning=225 --diag_wrap=off --display_error_number -z -m"F28027_ResampledPWM_FOH.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/lib" -i"C:/ti/controlSUITE/device_support/f2802x/v129/DSP2802x_headers/cmd" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="F28027_ResampledPWM_FOH_linkInfo.xml" --rom_model -o "C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/Debug/F28027_ResampledPWM_FOH.out"
+>>>>>>> Stashed changes

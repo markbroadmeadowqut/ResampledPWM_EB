@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchHistory>
+<<<<<<< Updated upstream
 <launchGroup id="org.eclipse.ui.externaltools.launchGroup">
 <mruHistory/>
+=======
+<launchGroup id="org.eclipse.debug.ui.launchGroup.debug">
+<mruHistory>
+<launch memento="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;launchConfiguration local=&quot;false&quot; path=&quot;/F28027_ResampledPWM_FOH/.launches/F28027_ResampledPWM_FOH.launch&quot;/&gt;&#13;&#10;"/>
+</mruHistory>
+>>>>>>> Stashed changes
 <favorites/>
 </launchGroup>
 <launchGroup id="org.eclipse.debug.ui.launchGroup.profile">

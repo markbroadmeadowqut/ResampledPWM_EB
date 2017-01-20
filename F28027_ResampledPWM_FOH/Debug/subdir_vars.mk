@@ -4,7 +4,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
-../28027_RAM_lnk.cmd 
+../28027_RAM_lnk.cmd \
+../DSP2802x_Headers_nonBIOS.cmd 
 
 C_SRCS += \
 ../main.c \

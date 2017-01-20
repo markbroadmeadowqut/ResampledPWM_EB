@@ -14,7 +14,11 @@
  <void id="ArrayList0" method="get">
   <object idref="SolutionManager$PersistState0"/>
   <void method="add">
+<<<<<<< Updated upstream
    <string>C:\Git\ResampledPWM_EB\dvt\AnalysisSolutionsTemp\AnalysisSolution1480288928913\null</string>
+=======
+   <string>C:\Git\ResampledPWM_EB\dvt\AnalysisSolutionsTemp\AnalysisSolution1484919456624\null</string>
+>>>>>>> Stashed changes
   </void>
   <void method="add">
    <string>C:\ti\ccsv6\ccs_base\dvt_4.1.0.201602080440\CodeGen\solutions\CodeGenCoverage</string>

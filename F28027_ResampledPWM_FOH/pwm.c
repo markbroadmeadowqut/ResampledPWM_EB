@@ -10,7 +10,7 @@
 void initPWM() {
 	EALLOW;	// PWM control registers are protected
 
-	EPwm1Regs.TBPRD = SWTBPRD; // fc = 1/(2*65536/TBCLK) = 1/(2*65535/150000000) = 1.1444kHz
+	EPwm1Regs.TBPRD = SWTBPRD; // fc = 1/(2*4095/TBCLK) = 1/(2*4095/60000000) = 7.327kHz
 	//EPwm1Regs.CMPA.all = SWTBPRD; // Just to make sure a switching event doesn't happen on initialisation
 	//EPwm1Regs.CMPB.all = SWTBPRD; // Not going to use EPwm1B, but will program it the same as EPwmA just to be safe
 	EPwm1Regs.TBPHS.all = 0; // Set Phase register to zero (don't plan to use synchronisation functionality at this stage)
@@ -54,6 +54,8 @@ void initPWM() {
 void pwmStart() {
 	EALLOW;
 	EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
+	// DEBUG
+	EPwm1Regs.CMPA.half.CMPA=4000;
 	EDIS;
 }
 

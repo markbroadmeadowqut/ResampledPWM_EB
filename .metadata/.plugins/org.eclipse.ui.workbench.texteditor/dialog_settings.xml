@@ -15,8 +15,19 @@
 		<item value="false" key="wholeword"/>
 		<item value="PI" key="selection"/>
 		<list key="findhistory">
+<<<<<<< Updated upstream
 			<item value="pi"/>
 			<item value="float"/>
+=======
+			<item value="clkdiv"/>
+			<item value="epwm1regs"/>
+			<item value="debug"/>
+			<item value="v1"/>
+			<item value="v12"/>
+			<item value="sequential"/>
+			<item value="isr_cpu_timer0"/>
+			<item value="pll"/>
+>>>>>>> Stashed changes
 		</list>
 		<list key="replacehistory">
 		</list>

@@ -1,6 +1,7 @@
 
 **** Build of configuration Debug for project F28027_ResampledPWM_FOH ****
 
+<<<<<<< Updated upstream
 "C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
 'Building file: ../timer.c'
 'Invoking: C2000 Compiler'
@@ -48,5 +49,9 @@ warning #10247-D: creating output section "AdcRegsFile" without a SECTIONS speci
 warning #10247-D: creating output section "PieVectTableFile" without a SECTIONS specification
 'Finished building target: F28027_ResampledPWM_FOH.out'
 ' '
+=======
+"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for 'all'.
+>>>>>>> Stashed changes
 
 **** Build Finished ****

@@ -42,8 +42,6 @@ interrupt void isr_CMPA_calc(void)
 
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 
-	//DEBUG
-	GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
 
 	// Update CMPA register
 	if(1) { //DEBUG
@@ -65,14 +63,17 @@ interrupt void isr_CMPA_calc(void)
 			// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 			CMPA_value=swTBCTR+ti;
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
-			//DEBUG
-			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
-			if(ti<=0) { // Might be a little faster to check (swTBCTR-newSample) for the missed edge instead of ti
+			if(ti<96) { // Might be a little faster to check (swTBCTR-newSample) for the missed edge instead of ti
+				//DEBUG
+				GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
 				EALLOW;
 				EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 				EDIS;
 				EPwm1Regs.AQSFRC.bit.OTSFA = 1;
 			}
+			//DEBUG
+			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+
 		} else {
 			calc1=newSample-prevSample+FOH_SCALE;
 			// Note that calc1 is equivalent to the modulating signal slope relative to the carrier slope in this calculation.
@@ -81,14 +82,16 @@ interrupt void isr_CMPA_calc(void)
 			ti=((swTBCTR-newSample)*FOH_SCALE)/calc1;
 			CMPA_value=swTBCTR-ti;
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
-			//DEBUG
-			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
-			if(ti<=0) {
+			if(ti<96) {
+				//DEBUG
+				GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
 				EALLOW;
-				EPwm1Regs.AQSFRC.bit.ACTSFA = 0;	// Set output high on software force
+				EPwm1Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force
 				EDIS;
 				EPwm1Regs.AQSFRC.bit.OTSFA = 1;
 			}
+			//DEBUG
+			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
 		}
 	}
 

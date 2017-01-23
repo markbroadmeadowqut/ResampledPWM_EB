@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <body>
 	<version>1</version>
-<<<<<<< Updated upstream
-	<timestamp>0x583ba642</timestamp>
-=======
-	<timestamp>0x58827d37</timestamp>
->>>>>>> Stashed changes
+	<timestamp>0x58862737</timestamp>
 	<link_advice_flag>true</link_advice_flag>
 	<current_settings>
 		<option name="--opt_for_speed" value="  --opt_for_speed=2"/>

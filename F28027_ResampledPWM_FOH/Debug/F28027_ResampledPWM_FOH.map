@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v16.9.1                     
 ******************************************************************************
->> Linked Fri Jan 20 16:12:18 2017
+>> Linked Mon Jan 23 10:54:28 2017
 
 OUTPUT FILE NAME:   <F28027_ResampledPWM_FOH.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 000084f4
@@ -13,7 +13,7 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
   BEGIN                 00000000   00000002  00000002  00000000  RWIX
-  RAMM0                 00000050   000003b0  00000131  0000027f  RWIX
+  RAMM0                 00000050   000003b0  00000138  00000278  RWIX
   PRAML0                00008000   00000900  0000077f  00000181  RWIX
   IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
   IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
@@ -65,23 +65,23 @@ codestart
 *          0    00000000    00000002     
                   00000000    00000002     DSP2802x_CodeStartBranch.obj (codestart)
 
-ramfuncs   0    00000050    00000091     
-                  00000050    0000008d     CMPA_calc.obj (ramfuncs:retain)
-                  000000dd    00000004     DSP2802x_usDelay.obj (ramfuncs)
+ramfuncs   0    00000050    00000098     
+                  00000050    00000094     CMPA_calc.obj (ramfuncs:retain)
+                  000000e4    00000004     DSP2802x_usDelay.obj (ramfuncs)
 
-.cinit     0    000000e1    00000022     
-                  000000e1    0000000e     rts2800_ml.lib : exit.obj (.cinit)
-                  000000ef    00000008     CMPA_calc.obj (.cinit)
-                  000000f7    00000005     rts2800_ml.lib : _lock.obj (.cinit:__lock)
-                  000000fc    00000005                    : _lock.obj (.cinit:__unlock)
-                  00000101    00000002     --HOLE-- [fill = 0]
+.cinit     0    000000e8    00000022     
+                  000000e8    0000000e     rts2800_ml.lib : exit.obj (.cinit)
+                  000000f6    00000008     CMPA_calc.obj (.cinit)
+                  000000fe    00000005     rts2800_ml.lib : _lock.obj (.cinit:__lock)
+                  00000103    00000005                    : _lock.obj (.cinit:__unlock)
+                  00000108    00000002     --HOLE-- [fill = 0]
 
-csm_rsvd   0    00000103    00000076     
-                  00000103    00000076     DSP2802x_CSMPasswords.obj (csm_rsvd)
+csm_rsvd   0    0000010a    00000076     
+                  0000010a    00000076     DSP2802x_CSMPasswords.obj (csm_rsvd)
 
 csmpasswds 
-*          0    00000179    00000008     
-                  00000179    00000008     DSP2802x_CSMPasswords.obj (csmpasswds)
+*          0    00000180    00000008     
+                  00000180    00000008     DSP2802x_CSMPasswords.obj (csmpasswds)
 
 .text      0    00008000    0000077f     
                   00008000    000002f8     DSP2802x_SWPrioritizedDefaultIsr.obj (.text:retain)
@@ -265,13 +265,13 @@ MODULE SUMMARY
        Module                                 code   initialized data   uninitialized data
        ------                                 ----   ----------------   ------------------
     .\
-       CMPA_calc.obj                          156    8                  2                 
+       CMPA_calc.obj                          163    8                  2                 
        pwm.obj                                74     0                  0                 
        ADC.obj                                71     0                  0                 
        main.obj                               35     0                  0                 
        timer.obj                              31     0                  0                 
     +--+--------------------------------------+------+------------------+--------------------+
-       Total:                                 367    8                  2                 
+       Total:                                 374    8                  2                 
                                                                                           
     .\DSP2802x_common\source\
        DSP2802x_SWPrioritizedDefaultIsr.obj   760    0                  0                 
@@ -310,7 +310,7 @@ MODULE SUMMARY
                                                                                           
        Stack:                                 0      0                  768               
     +--+--------------------------------------+------+------------------+--------------------+
-       Grand Total:                           2066   414                1802              
+       Grand Total:                           2073   414                1802              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -426,7 +426,7 @@ page  address   name
 0     00008010  _DATALOG_ISR                    
 0     00008772  _DSP28x_DisableInt              
 0     00008776  _DSP28x_RestoreInt              
-0     000000dd  _DSP28x_usDelay                 
+0     000000e4  _DSP28x_usDelay                 
 1     00000880  _DevEmuRegs                     
 0     0000831c  _DisableDog                     
 0     000081c0  _ECAP1_INT_ISR                  
@@ -516,7 +516,7 @@ abs   ffffffff  ___TI_prof_data_size
 abs   ffffffff  ___TI_prof_data_start           
 abs   ffffffff  ___binit__                      
 abs   ffffffff  ___c_args__                     
-0     000000e1  ___cinit__                      
+0     000000e8  ___cinit__                      
 0     0000877f  ___etext__                      
 abs   ffffffff  ___pinit__                      
 0     00008000  ___text__                       
@@ -547,7 +547,7 @@ abs   ffffffff  ___pinit__
 0     00008587  _pwmStop                        
 0     000082f3  _rsvd_ISR                       
 abs   ffffffff  binit                           
-0     000000e1  cinit                           
+0     000000e8  cinit                           
 0     00000000  code_start                      
 0     0000877f  etext                           
 abs   ffffffff  pinit                           
@@ -559,9 +559,9 @@ page  address   name
 ----  -------   ----                            
 0     00000000  code_start                      
 0     00000050  _isr_CMPA_calc                  
-0     000000dd  _DSP28x_usDelay                 
-0     000000e1  ___cinit__                      
-0     000000e1  cinit                           
+0     000000e4  _DSP28x_usDelay                 
+0     000000e8  ___cinit__                      
+0     000000e8  cinit                           
 0     00008000  .text                           
 0     00008000  _INT13_ISR                      
 0     00008000  ___text__                       

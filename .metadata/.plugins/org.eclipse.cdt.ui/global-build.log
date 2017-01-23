@@ -1,17 +1,6 @@
 
 **** Build of configuration Debug for project F28027_ResampledPWM_FOH ****
 
-<<<<<<< Updated upstream
-"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
-'Building file: ../timer.c'
-'Invoking: C2000 Compiler'
-"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -ml -mt --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/source" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" -g --display_error_number --diag_warning=225 --diag_wrap=off --preproc_with_compile --preproc_dependency="timer.d"  "../timer.c"
-'Finished building: ../timer.c'
-' '
-'Building target: F28027_ResampledPWM_FOH.out'
-'Invoking: C2000 Linker'
-"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -ml -mt -g --display_error_number --diag_warning=225 --diag_wrap=off -z -m"F28027_ResampledPWM_FOH.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/lib" -i"C:/ti/controlSUITE/device_support/f2802x/v129/DSP2802x_headers/cmd" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="F28027_ResampledPWM_FOH_linkInfo.xml" --rom_model -o "F28027_ResampledPWM_FOH.out" "./main.obj" "./pwm.obj" "./timer.obj" "./DSP2802x_common/source/DSP2802x_Adc.obj" "./DSP2802x_common/source/DSP2802x_CSMPasswords.obj" "./DSP2802x_common/source/DSP2802x_CodeStartBranch.obj" "./DSP2802x_common/source/DSP2802x_Comp.obj" "./DSP2802x_common/source/DSP2802x_CpuTimers.obj" "./DSP2802x_common/source/DSP2802x_DBGIER.obj" "./DSP2802x_common/source/DSP2802x_DisInt.obj" "./DSP2802x_common/source/DSP2802x_ECap.obj" "./DSP2802x_common/source/DSP2802x_EPwm.obj" "./DSP2802x_common/source/DSP2802x_Gpio.obj" "./DSP2802x_common/source/DSP2802x_I2C.obj" "./DSP2802x_common/source/DSP2802x_MemCopy.obj" "./DSP2802x_common/source/DSP2802x_OscComp.obj" "./DSP2802x_common/source/DSP2802x_PieCtrl.obj" "./DSP2802x_common/source/DSP2802x_SWPrioritizedDefaultIsr.obj" "./DSP2802x_common/source/DSP2802x_SWPrioritizedPieVect.obj" "./DSP2802x_common/source/DSP2802x_Sci.obj" "./DSP2802x_common/source/DSP2802x_Spi.obj" "./DSP2802x_common/source/DSP2802x_SysCtrl.obj" "./DSP2802x_common/source/DSP2802x_TempSensorConv.obj" "./DSP2802x_common/source/DSP2802x_usDelay.obj" "./DSP2802x_headers/source/DSP2802x_GlobalVariableDefs.obj" "../28027_RAM_lnk.cmd"  -llibc.a 
-=======
 "C:\\ti\\ccsv7\\utils\\bin\\gmake" -k all 
 'Building file: ../CMPA_calc.c'
 'Invoking: C2000 Compiler'
@@ -21,7 +10,6 @@
 'Building target: F28027_ResampledPWM_FOH.out'
 'Invoking: C2000 Linker'
 "C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt -g --diag_warning=225 --diag_wrap=off --display_error_number -z -m"F28027_ResampledPWM_FOH.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/lib" -i"C:/ti/controlSUITE/device_support/f2802x/v129/DSP2802x_headers/cmd" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="F28027_ResampledPWM_FOH_linkInfo.xml" --rom_model -o "F28027_ResampledPWM_FOH.out" "./ADC.obj" "./CMPA_calc.obj" "./main.obj" "./pwm.obj" "./timer.obj" "./DSP2802x_common/source/DSP2802x_Adc.obj" "./DSP2802x_common/source/DSP2802x_CSMPasswords.obj" "./DSP2802x_common/source/DSP2802x_CodeStartBranch.obj" "./DSP2802x_common/source/DSP2802x_Comp.obj" "./DSP2802x_common/source/DSP2802x_CpuTimers.obj" "./DSP2802x_common/source/DSP2802x_DBGIER.obj" "./DSP2802x_common/source/DSP2802x_DisInt.obj" "./DSP2802x_common/source/DSP2802x_ECap.obj" "./DSP2802x_common/source/DSP2802x_EPwm.obj" "./DSP2802x_common/source/DSP2802x_Gpio.obj" "./DSP2802x_common/source/DSP2802x_I2C.obj" "./DSP2802x_common/source/DSP2802x_MemCopy.obj" "./DSP2802x_common/source/DSP2802x_OscComp.obj" "./DSP2802x_common/source/DSP2802x_PieCtrl.obj" "./DSP2802x_common/source/DSP2802x_SWPrioritizedDefaultIsr.obj" "./DSP2802x_common/source/DSP2802x_SWPrioritizedPieVect.obj" "./DSP2802x_common/source/DSP2802x_Sci.obj" "./DSP2802x_common/source/DSP2802x_Spi.obj" "./DSP2802x_common/source/DSP2802x_SysCtrl.obj" "./DSP2802x_common/source/DSP2802x_TempSensorConv.obj" "./DSP2802x_common/source/DSP2802x_usDelay.obj" "./DSP2802x_headers/source/DSP2802x_GlobalVariableDefs.obj" "../28027_RAM_lnk.cmd" "../DSP2802x_Headers_nonBIOS.cmd"  -llibc.a 
->>>>>>> Stashed changes
 <Linking>
 warning #10247-D: creating output section "csmpasswds" without a SECTIONS specification
 warning #10247-D: creating output section "csm_rsvd" without a SECTIONS specification

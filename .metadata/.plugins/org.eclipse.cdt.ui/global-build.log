@@ -2,6 +2,11 @@
 **** Build of configuration Debug for project F28027_ResampledPWM_FOH ****
 
 "C:\\ti\\ccsv7\\utils\\bin\\gmake" -k all 
+'Building file: ../ADC.c'
+'Invoking: C2000 Compiler'
+"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/source" --include_path="C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="ADC.d"  "../ADC.c"
+'Finished building: ../ADC.c'
+' '
 'Building file: ../CMPA_calc.c'
 'Invoking: C2000 Compiler'
 "C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_FOH/DSP2802x_common/source" --include_path="C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="CMPA_calc.d"  "../CMPA_calc.c"

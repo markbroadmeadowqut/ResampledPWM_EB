@@ -42,6 +42,8 @@ interrupt void isr_CMPA_calc(void)
 
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 
+	//DEBUG
+	//GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
 
 	// Update CMPA register
 	if(1) { //DEBUG
@@ -65,14 +67,14 @@ interrupt void isr_CMPA_calc(void)
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 			if(ti<96) { // Might be a little faster to check (swTBCTR-newSample) for the missed edge instead of ti
 				//DEBUG
-				GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
+//				GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
 				EALLOW;
 				EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 				EDIS;
 				EPwm1Regs.AQSFRC.bit.OTSFA = 1;
 			}
 			//DEBUG
-			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+//			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
 
 		} else {
 			calc1=newSample-prevSample+FOH_SCALE;
@@ -84,21 +86,21 @@ interrupt void isr_CMPA_calc(void)
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 			if(ti<96) {
 				//DEBUG
-				GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
+//				GpioDataRegs.GPATOGGLE.bit.GPIO2 = 1;
 				EALLOW;
 				EPwm1Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force
 				EDIS;
 				EPwm1Regs.AQSFRC.bit.OTSFA = 1;
 			}
 			//DEBUG
-			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
+//			GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
 		}
 	}
 
 	prevSample = newSample;       // Push newSample back on to prevSample at this point in the interrupt so that the write to CMPA happens sooner
 
-	// DEBUG
-	//EPwm1Regs.CMPA.half.CMPA=newSample;
+	//DEBUG
+	//GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
 
 
 	// Acknowledge this interrupt to receive more interrupts from group 1

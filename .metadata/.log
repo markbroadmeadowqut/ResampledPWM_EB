@@ -2961,3 +2961,28 @@ java.net.UnknownHostException: software-dl.ti.com
 
 !ENTRY org.eclipse.cdt.core 1 0 2017-01-23 09:53:44.657
 !MESSAGE Indexed 'F28335_ResampledPWM_FOH' (15 sources, 38 headers) in 2.06 sec: 4,977 declarations; 8,030 references; 0 unresolved inclusions; 164 syntax errors; 131 unresolved names (1%)
+!SESSION 2017-01-23 15:01:13.530 -----------------------------------------------
+eclipse.buildId=4.6.0.I20160606-1100
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_AU
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2017-01-23 15:01:37.606
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2017-01-23 15:01:37.614
+!MESSAGE debugServerDir=C:/ti/ccsv7/ccs_base/DebugServer
+
+!ENTRY com.ti.ccstudio.debug 1 0 2017-01-23 15:41:33.019
+!MESSAGE DS_ERROR: C28xx: Error: (Error -150 @ 0x0) One of the FTDI driver functions used during configuration returned a invalid status or an error. (Emulation package 6.0.504.1) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2017-01-23 15:41:33.568
+!MESSAGE DS_ERROR: C28xx: Unable to determine target status after 20 attempts
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2017-01-23 15:41:33.611
+!MESSAGE DS_ERROR: C28xx: Failed to remove the debug state from the target before disconnecting.  There may still be breakpoint op-codes embedded in program memory.  It is recommended that you reset the emulator before you connect and reload your program before you continue debugging
+

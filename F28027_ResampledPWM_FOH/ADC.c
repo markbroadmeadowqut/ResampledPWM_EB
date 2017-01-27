@@ -12,9 +12,6 @@ void initADC() {
 	EALLOW;
 	SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 1; // enable the ADC clock; must be done before writing to any of the ADC registers
 	AdcRegs.ADCCTL1.bit.ADCREFSEL = 0; // use the internal reference so that RTDS output values need to be between 0 and 3.3V
-	// Note that Vreflo is tied to ground on the C2000 Launchpad
-	// Are we skipping the boot process? Do we need to call the Device_cal() function?
-	// IS THERE A WAY TO ENABLE ALL THREE OF THESE POWER UP BITS AT ONCE??
 	AdcRegs.ADCCTL1.bit.ADCPWDN = 1; // Power up the ADC
 	AdcRegs.ADCCTL1.bit.ADCBGPWD = 1; // Power up the band-gap circuit (the circuit we use for the 3.3V internal reference??)
 	AdcRegs.ADCCTL1.bit.ADCREFPWD = 1; // Power up the Reference Buffer circuitry of the ADC (not sure what this one actually does)...

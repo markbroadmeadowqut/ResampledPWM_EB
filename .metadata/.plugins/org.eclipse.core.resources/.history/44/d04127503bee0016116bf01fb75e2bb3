@@ -53,7 +53,7 @@ interrupt void isr_CMPA_calc(void)
 	// Update CMPA register for ePWM1
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	calc1_rising=newSample-prevSample-FOH_SCALE;  // If I wanted I could probably squeeze another bit of precision into ti by multiplying (newSample-prevSample) by 2; overflow of 2^15 should still be impossible...
-	calc1_falling=calc1_rising+FOH_SCALE_doubled;
+	calc1_falling=calc1_falling+FOH_SCALE_doubled;
 	if(swCTRDIR) {
 		// Note that calc1 is equivalent to the modulating signal slope relative to the carrier slope in this
 		// calculation. If it were to have a value of zero then this would imply that the modulating signal has the same slope

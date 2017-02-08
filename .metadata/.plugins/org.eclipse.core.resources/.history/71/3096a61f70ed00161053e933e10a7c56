@@ -100,7 +100,6 @@ void initPWM() {
 	GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 01;	// EPWM3B on GPIO5
 	GpioCtrlRegs.GPADIR.bit.GPIO5 = 1;	// Output on GPIO5
 
-	GpioCtrlRegs.GPADIR.bit.GPIO16 = 1;	// Output on GPIO16
 
 	// DEBUG
 	//EPwm1Regs.CMPA.half.CMPA = 2047;	// 50% duty

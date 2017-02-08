@@ -37,8 +37,7 @@ interrupt void isr_CMPA_calc(void)
 {
 	Uint16 swCTRDIR;
 	int32 swTBCTR; // Must be unsigned 32 bit integer because (swTBCTR-newSample)*FOH_SCALE could reach 12million; this exceeds the 16-bit integer size
-	int16 calc1_rising;
-	int16 calc1_falling;
+	int16 calc1;
 	int32 ti;
 	int32 CMPA_value;
 
@@ -53,7 +52,7 @@ interrupt void isr_CMPA_calc(void)
 	// Update CMPA register for ePWM1
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	calc1_rising=newSample-prevSample-FOH_SCALE;  // If I wanted I could probably squeeze another bit of precision into ti by multiplying (newSample-prevSample) by 2; overflow of 2^15 should still be impossible...
-	calc1_falling=calc1_rising+FOH_SCALE_doubled;
+	calc1_falling=calc1_falling+FOH_SCALE_doubled;
 	if(swCTRDIR) {
 		// Note that calc1 is equivalent to the modulating signal slope relative to the carrier slope in this
 		// calculation. If it were to have a value of zero then this would imply that the modulating signal has the same slope
@@ -113,7 +112,7 @@ interrupt void isr_CMPA_calc(void)
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
 		EPwm2Regs.CMPA.half.CMPA=CMPA_value;
-		if(ti<204) { //96*2+12=204, factir of 12 is due to the extra ~0.2us required for software forcing check on the last module
+		if(ti<96) { //96*2+12=204, factir of 12 is due to the extra ~0.2us required for software forcing check on the last module
 			EALLOW;
 			EPwm2Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 			EDIS;
@@ -124,7 +123,7 @@ interrupt void isr_CMPA_calc(void)
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
 		EPwm2Regs.CMPA.half.CMPA=CMPA_value;
-		if(ti<204) {
+		if(ti<96) {
 			EALLOW;
 			EPwm2Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force
 			EDIS;
@@ -145,7 +144,7 @@ interrupt void isr_CMPA_calc(void)
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
 		EPwm3Regs.CMPA.half.CMPA=CMPA_value;
-		if(ti<312) { //96*3+2*12=312; Note that 312 is about 10% of 3000, so only 10% of all FOH switching instant
+		if(ti<96) { //96*3+2*12=312; Note that 312 is about 10% of 3000, so only 10% of all FOH switching instant
 			// calculations for ePWM3 are made innaccurate by the need for software forcing, and that inaccuracy should
 			// only amount to samples from a uniform distribution that is bounded by [0us,5us].
 			GpioDataRegs.GPASET.bit.GPIO16 = 1;
@@ -160,7 +159,7 @@ interrupt void isr_CMPA_calc(void)
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
 		EPwm3Regs.CMPA.half.CMPA=CMPA_value;
-		if(ti<312) {
+		if(ti<96) {
 			GpioDataRegs.GPASET.bit.GPIO16 = 1;
 			EALLOW;
 			EPwm3Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force

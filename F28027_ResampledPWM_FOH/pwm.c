@@ -10,9 +10,15 @@
 void initPWM() {
 	EALLOW;	// PWM control registers are protected
 
+	//SysCtrlRegs.PCLKCR1.bit.EPWM1ENCLK = 1;
+	//SysCtrlRegs.PCLKCR1.bit.EPWM2ENCLK = 1;
+	//SysCtrlRegs.PCLKCR1.bit.EPWM3ENCLK = 1;
+
+	//SysCtrlRegs.PCLKCR0.bit.TBCLKSYNC = 0;
+
 	EPwm1Regs.TBPRD = SWTBPRD; // fc = 1/(2*4095/TBCLK) = 1/(2*4095/60000000) = 7.327kHz
-	EPwm1Regs.TBPHS.all = 0; // Set Phase register for first module to zero; other two modules are phase displaced wrt this one
-	EPwm1Regs.TBCTR = 0;
+	EPwm1Regs.TBPHS.half.TBPHS = 0; // Set Phase register for first module to zero; other two modules are phase displaced wrt this one
+	//EPwm1Regs.TBCTR = 0;
 	EPwm1Regs.TBCTL.bit.CTRMODE = TB_FREEZE; // Make sure the counter is not counting yet when we are initialising EPwm1
 	EPwm1Regs.TBCTL.bit.PHSDIR = 1; // After the sync event, ePWM1 will count up from phase 0
 	EPwm1Regs.TBCTL.bit.PHSEN = TB_ENABLE; // Phase loading enabled
@@ -36,8 +42,8 @@ void initPWM() {
 	EPwm1Regs.DBRED = 60; // Use a rising-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
 
 	EPwm2Regs.TBPRD = SWTBPRD;
-	EPwm2Regs.TBPHS.all = SWTBPHS23;
-	EPwm2Regs.TBCTR = SWTBPHS23;
+	EPwm2Regs.TBPHS.half.TBPHS = SWTBPHS23;
+	//EPwm2Regs.TBCTR = SWTBPHS23;
 	EPwm2Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
 	EPwm2Regs.TBCTL.bit.PHSDIR = 1; // After the sync event, ePWM2 will count up from phase SWTBPHS23
 	EPwm2Regs.TBCTL.bit.PHSEN = TB_ENABLE;
@@ -61,8 +67,8 @@ void initPWM() {
 	EPwm2Regs.DBRED = 60;
 
 	EPwm3Regs.TBPRD = SWTBPRD;
-	EPwm3Regs.TBPHS.all = SWTBPHS23;
-	EPwm3Regs.TBCTR = SWTBPHS23;
+	EPwm3Regs.TBPHS.half.TBPHS = SWTBPHS23;
+	//EPwm3Regs.TBCTR = SWTBPHS23;
     EPwm3Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
 	EPwm3Regs.TBCTL.bit.PHSDIR = 0; // After the sync event, ePWM3 will count down from phase SWTBPHS23
 	EPwm3Regs.TBCTL.bit.PHSEN = TB_ENABLE;
@@ -105,15 +111,19 @@ void initPWM() {
 	// DEBUG
 	//EPwm1Regs.CMPA.half.CMPA = 2047;	// 50% duty
 
+	//SysCtrlRegs.PCLKCR0.bit.TBCLKSYNC = 1;
 
 	EDIS;
 }
 
 void pwmStart() {
 	EALLOW;
+
 	EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
 	EPwm2Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
 	EPwm3Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
+
+
 
 	// Initiate a software-sync event on ePWM1; the pulse will carry through to ePWM2 and ePWM3 also, forcing them to be synchronized with ePWM1
 	EPwm1Regs.TBCTL.bit.SWFSYNC = 1;
@@ -128,5 +138,11 @@ void pwmStop() {
 	EPwm1Regs.TBCTL.bit.CTRMODE = TB_FREEZE;  // How to reset GPIO???
 	EPwm1Regs.TBCTR = 0;	// Reset counter
 	EPwm1Regs.AQSFRC.bit.OTSFA = 1;
+	EPwm2Regs.TBCTL.bit.CTRMODE = TB_FREEZE;  // How to reset GPIO???
+	EPwm2Regs.TBCTR = 0;	// Reset counter
+	EPwm2Regs.AQSFRC.bit.OTSFA = 1;
+	EPwm3Regs.TBCTL.bit.CTRMODE = TB_FREEZE;  // How to reset GPIO???
+	EPwm3Regs.TBCTR = 0;	// Reset counter
+	EPwm3Regs.AQSFRC.bit.OTSFA = 1;
 	EDIS;
 }

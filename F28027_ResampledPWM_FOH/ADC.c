@@ -7,7 +7,31 @@
 
 #include "DSP28x_Project.h"
 #include "config.h"
-#
+
+
+interrupt void trigger_SOC0(void);
+
+void inittriggerSOC0() {
+	EALLOW;
+	PieVectTable.XINT2 = &trigger_SOC0;
+	EDIS;
+
+	PieCtrlRegs.PIEIER1.bit.INTx5 = 1;     // Enable PIE Group 1, INT5, XINT2
+	IER |= M_INT5;
+
+	//DEBUG
+	EALLOW;
+	GpioCtrlRegs.GPADIR.bit.GPIO6 = 1;				// Set GPIO6 as output
+	EDIS;
+}
+
+#pragma CODE_SECTION(trigger_SOC0, "ramfuncs");
+interrupt void trigger_SOC0(void) {
+
+	// Acknowledge this interrupt to receive more interrupts from group 1
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}
+
 void initADC() {
 	EALLOW;
 	SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 1; // enable the ADC clock; must be done before writing to any of the ADC registers
@@ -33,25 +57,17 @@ void initADC() {
 	AdcRegs.ADCSAMPLEMODE.bit.SIMULEN10 = 0;
 	AdcRegs.ADCSAMPLEMODE.bit.SIMULEN12 = 0;
 	AdcRegs.ADCSAMPLEMODE.bit.SIMULEN14 = 0;
-	AdcRegs.ADCINTSOCSEL1.all = 0; // Don't allow any ADCINTs to trigger any SOCs
-	AdcRegs.ADCINTSOCSEL2.all = 0;
-	AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x01; // Use CPU Timer 0 as the trigger for SOC0
+	AdcRegs.ADCINTSOCSEL1.bit.SOC0 = 0x00; // Don't allow any ADCINTs to trigger SOC0
+	//AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x01; // Use CPU Timer 0 as the trigger for SOC0
 	AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x01; // Associate input channel ADCINA1 with SOC0 (avoiding ADCINA0 as it is sometimes used for VREFHI)
 	AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x06; // 6 cycles is the shortest allowed window size for the ADC; I'll have to do some testing of the GTAO output characteristics to see if 6 cycles is long enough to charge the ADC capacitor completely (i.e. long enough to get an accurate conversion)
 
 	//// Use XINT2 as SOC0 trigger
-	//AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x04;
-	//GpioIntRegs.GPIOXINT2SEL.bit.GPIOSEL = 00011; // Assign XINT2 to GPIO3
-	//XIntruptRegs.XINT2CR.bit.POLARITY = 11; // trigger XINT2 on both a rising and falling edge
-	//XIntruptRegs.XINT2CR.bit.ENABLE = 1; // enable XINT2
-	//GpioCtrlRegs.GPAQSEL1.bit.GPIO3 = 11; // asynchronous qualification of XINT2...wish I knew what this actually means...
-	//// Don't need to touch the GPACTRL register if using asynchronous qualification
-	//GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 1;	// EPWM1A on GPIO0
-	//GpioCtrlRegs.GPADIR.bit.GPIO0 = 1;	// Output on GPIO0
-	//GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;
-	//GpioCtrlRegs.GPADIR.bit.GPIO2 = 1;				// Set GPIO2 as output
-	//PieCtrlRegs.PIEIER1.bit.INTx5 = 1;     // Enable PIE Group 1, INT5, XINT2
-
+	AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x04;
+	GpioCtrlRegs.GPAQSEL2.bit.GPIO28 = 00; // Synchronise XINT2 to SYSCLKOUT only
+	XIntruptRegs.XINT2CR.bit.POLARITY = 0x03; // trigger XINT2 on both a rising and falling edge
+	GpioIntRegs.GPIOXINT2SEL.bit.GPIOSEL = 0x1C; // Assign XINT2 to GPIO28
+	XIntruptRegs.XINT2CR.bit.ENABLE = 1; // enable XINT2
 
 	EDIS;
 }

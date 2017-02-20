@@ -10,5 +10,7 @@
 #define ADC_H_
 
 void initADC();
+void inittriggerSOC0();
+
 
 #endif /* ADC_H_ */

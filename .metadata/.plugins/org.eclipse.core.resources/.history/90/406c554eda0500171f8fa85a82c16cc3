@@ -24,9 +24,9 @@ void initCMPAcalc() {
 	IER |= M_INT1;
 
 	//DEBUG
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+	GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
 	EALLOW;
-	GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;				// Set GPIO29 as output
+	GpioCtrlRegs.GPADIR.bit.GPIO6 = 1;				// Set GPIO6 as output
 	EDIS;
 
 }
@@ -49,7 +49,7 @@ interrupt void isr_CMPA_calc(void)
 	//CpuTimer0.InterruptCount++;
 
 	//DEBUG
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
+	GpioDataRegs.GPASET.bit.GPIO6 = 1;
 	// Update CMPA register for ePWM1
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	calc1_rising=newSample-prevSample-FOH_SCALE;  // If I wanted I could probably squeeze another bit of precision into ti by multiplying (newSample-prevSample) by 2; overflow of 2^15 should still be impossible...
@@ -72,7 +72,7 @@ interrupt void isr_CMPA_calc(void)
 		CMPA_value=swTBCTR+ti;
 		EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 		//DEBUG
-		GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+		GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
 		if(ti<96) {
 			EALLOW;
 			EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
@@ -87,7 +87,7 @@ interrupt void isr_CMPA_calc(void)
 		CMPA_value=swTBCTR-ti;
 		EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 		//DEBUG
-		GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+		GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
 		if(ti<96) {
 			EALLOW;
 			EPwm1Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force

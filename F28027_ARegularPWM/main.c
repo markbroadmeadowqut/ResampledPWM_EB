@@ -36,7 +36,7 @@ void init() {
 	// INITIALISE PERIPHERALS
 	initCMPAcalc();
 	initPWM();
-	inittriggerSOC0();
+	//inittriggerSOC0();
 	initADC();
 	initTimer(); // Important that timer is activated AFTER the ADC and PWM have been initialised
 

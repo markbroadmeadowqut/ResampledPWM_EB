@@ -11,42 +11,36 @@ C_SRCS += \
 ../ADC.c \
 ../CMPA_calc.c \
 ../main.c \
-../pwm.c \
-../timer.c 
+../pwm.c 
 
 OBJS += \
 ./ADC.obj \
 ./CMPA_calc.obj \
 ./main.obj \
-./pwm.obj \
-./timer.obj 
+./pwm.obj 
 
 C_DEPS += \
 ./ADC.d \
 ./CMPA_calc.d \
 ./main.d \
-./pwm.d \
-./timer.d 
+./pwm.d 
 
 C_DEPS__QUOTED += \
 "ADC.d" \
 "CMPA_calc.d" \
 "main.d" \
-"pwm.d" \
-"timer.d" 
+"pwm.d" 
 
 OBJS__QUOTED += \
 "ADC.obj" \
 "CMPA_calc.obj" \
 "main.obj" \
-"pwm.obj" \
-"timer.obj" 
+"pwm.obj" 
 
 C_SRCS__QUOTED += \
 "../ADC.c" \
 "../CMPA_calc.c" \
 "../main.c" \
-"../pwm.c" \
-"../timer.c" 
+"../pwm.c" 
 
 

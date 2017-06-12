@@ -18,7 +18,6 @@ void initPWM() {
 
 	EPwm1Regs.TBPRD = SWTBPRD; // fc = 1/(2*4095/TBCLK) = 1/(2*4095/60000000) = 7.327kHz
 	EPwm1Regs.TBPHS.half.TBPHS = 0; // Set Phase register for first module to zero; other two modules are phase displaced wrt this one
-	//EPwm1Regs.TBCTR = 0;
 	EPwm1Regs.TBCTL.bit.CTRMODE = TB_FREEZE; // Make sure the counter is not counting yet when we are initialising EPwm1
 	EPwm1Regs.TBCTL.bit.PHSDIR = 1; // After the sync event, ePWM1 will count up from phase 0
 	EPwm1Regs.TBCTL.bit.PHSEN = TB_ENABLE; // Phase loading enabled
@@ -27,9 +26,8 @@ void initPWM() {
 	EPwm1Regs.TBCTL.bit.CLKDIV = TB_DIV1; // TBCLK = SYSCLKOUT
 	EPwm1Regs.TBCTL.bit.SYNCOSEL = 00; // Associate ePWM1SYNCO with ePWM1SYNCI; this should ensure that the software-forced sync event triggers all of the other ePWM modules
 	EPwm1Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW; // load CMPA immediately
-	EPwm1Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
+	EPwm1Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
 	EPwm1Regs.CMPCTL.bit.LOADAMODE = 10; // Don't care about this load functionality as we are using immediate load mode
-	EPwm1Regs.CMPCTL.bit.LOADBMODE = 10;
 	EPwm1Regs.AQCTLA.bit.CAU = AQ_CLEAR; // I want my PWM signal to be CLEARED to low when the carrier is increasing and the modulating signal falls below it...
 	EPwm1Regs.AQCTLA.bit.CAD = AQ_SET; // ...and to be SET to high when the carrier is decreasing and the modulating signal rises above it.
 	EPwm1Regs.AQCTLA.bit.PRD = 00; // Do nothing when TBCTR=TBPRD
@@ -41,13 +39,13 @@ void initPWM() {
 	EPwm1Regs.DBFED = 60; // Use a falling-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
 	EPwm1Regs.DBRED = 60; // Use a rising-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
 	EPwm1Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
-	EPwm1Regs.ETSEL.bit.SOCASEL=01; // Trigger SOCA when TBCTR=PRD and when TBCTR=0
+	EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing to begin with because ePWM1 starts counting up
+	EPwm1Regs.CMPB = SWTBPRD-50; // Hopefully 50 CPU clock cycle is long enough for the ADC to complete its sample and the interrupt to write the result to the CMPA shadow
 	EPwm1Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 
 
 	EPwm2Regs.TBPRD = SWTBPRD;
 	EPwm2Regs.TBPHS.half.TBPHS = SWTBPHS23;
-	//EPwm2Regs.TBCTR = SWTBPHS23;
 	EPwm2Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
 	EPwm2Regs.TBCTL.bit.PHSDIR = 1; // After the sync event, ePWM2 will count up from phase SWTBPHS23
 	EPwm2Regs.TBCTL.bit.PHSEN = TB_ENABLE;
@@ -56,9 +54,8 @@ void initPWM() {
 	EPwm2Regs.TBCTL.bit.CLKDIV = TB_DIV1;
 	EPwm2Regs.TBCTL.bit.SYNCOSEL = 00;
 	EPwm2Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;
-	EPwm2Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
+	EPwm2Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
 	EPwm2Regs.CMPCTL.bit.LOADAMODE = 10;
-	EPwm2Regs.CMPCTL.bit.LOADBMODE = 10;
 	EPwm2Regs.AQCTLA.bit.CAU = AQ_CLEAR;
 	EPwm2Regs.AQCTLA.bit.CAD = AQ_SET;
 	EPwm2Regs.AQCTLA.bit.PRD = 00;
@@ -70,13 +67,13 @@ void initPWM() {
 	EPwm2Regs.DBFED = 60;
 	EPwm2Regs.DBRED = 60;
 	EPwm2Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
-	EPwm2Regs.ETSEL.bit.SOCASEL=01; // Trigger SOCA when TBCTR=PRD and when TBCTR=0
+	EPwm2Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing to begin with because ePWM2 starts counting up
+	EPwm2Regs.CMPB = SWTBPRD-50;
 	EPwm2Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 
 	EPwm3Regs.TBPRD = SWTBPRD;
 	EPwm3Regs.TBPHS.half.TBPHS = SWTBPHS23;
-	//EPwm3Regs.TBCTR = SWTBPHS23;
-    EPwm3Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
+	EPwm3Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
 	EPwm3Regs.TBCTL.bit.PHSDIR = 0; // After the sync event, ePWM3 will count down from phase SWTBPHS23
 	EPwm3Regs.TBCTL.bit.PHSEN = TB_ENABLE;
 	EPwm3Regs.TBCTL.bit.PRDLD = TB_IMMEDIATE;
@@ -84,9 +81,8 @@ void initPWM() {
 	EPwm3Regs.TBCTL.bit.CLKDIV = TB_DIV1;
 	EPwm3Regs.TBCTL.bit.SYNCOSEL = 00;
     EPwm3Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;
-	EPwm3Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
+	EPwm3Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
 	EPwm3Regs.CMPCTL.bit.LOADAMODE = 10;
-	EPwm3Regs.CMPCTL.bit.LOADBMODE = 10;
 	EPwm3Regs.AQCTLA.bit.CAU = AQ_CLEAR;
 	EPwm3Regs.AQCTLA.bit.CAD = AQ_SET;
 	EPwm3Regs.AQCTLA.bit.PRD = 00;
@@ -98,9 +94,9 @@ void initPWM() {
 	EPwm3Regs.DBFED = 60;
 	EPwm3Regs.DBRED = 60;
 	EPwm3Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
-	EPwm3Regs.ETSEL.bit.SOCASEL=01; // Trigger SOCA when TBCTR=PRD and when TBCTR=0
+	EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing to begin with because ePWM3 starts counting down
+	EPwm3Regs.CMPB = 50;
 	EPwm3Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
-
 	
 	
 	GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 01;	// EPWM1A on GPIO0

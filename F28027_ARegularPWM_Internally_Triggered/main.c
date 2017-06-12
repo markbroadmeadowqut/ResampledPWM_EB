@@ -5,7 +5,6 @@
 #include "DSP28x_Project.h"
 #include "config.h"
 #include "pwm.h"
-#include "timer.h"
 #include "ADC.h"
 #include "CMPA_calc.h"
 
@@ -37,7 +36,6 @@ void init() {
 	initCMPAcalc();
 	initPWM();
 	initADC();
-	initTimer(); // Important that timer is activated AFTER the ADC and PWM have been initialised
 
 	PieCtrlRegs.PIECTRL.bit.ENPIE = 1;     // Enable the PIE block
 

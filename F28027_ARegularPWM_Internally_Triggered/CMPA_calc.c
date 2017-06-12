@@ -40,12 +40,19 @@ void initCMPAcalc() {
 interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
-	int32 swTBCTR; // Must be unsigned 32 bit integer because (swTBCTR-newSample)*FOH_SCALE could reach 12million; this exceeds the 16-bit integer size
-	int32 CMPA_value;
-	Uint16 newSample;
 
-	newSample = AdcResult.ADCRESULT0;
-	EPwm1Regs.CMPA.half.CMPA=newSample;
+	// Write the new sample to shadow of CMPA
+	EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
+
+	// Change CMPB value for ePWM1
+	swCTRDIR=EPwm1Regs.TBSTS.bit.CTRDIR;
+	if(swCTRDIR) {
+		EPwm1Regs.CMPB = 50;
+		EPwm1Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+	} else {
+		EPwm1Regs.CMPB = SWTBPRD-50;
+		EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+	}
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
@@ -55,27 +62,41 @@ interrupt void isr_CMPA_calc1(void)
 interrupt void isr_CMPA_calc2(void)
 {
 	Uint16 swCTRDIR;
-	int32 swTBCTR; // Must be unsigned 32 bit integer because (swTBCTR-newSample)*FOH_SCALE could reach 12million; this exceeds the 16-bit integer size
-	int32 CMPA_value;
-	Uint16 newSample;
 
-	newSample = AdcResult.ADCRESULT1;
-	EPwm2Regs.CMPA.half.CMPA=newSample;
+	// Write the new sample to shadow of CMPA
+	EPwm2Regs.CMPA.half.CMPA=AdcResult.ADCRESULT1;
+
+	// Change CMPB value for ePWM2
+	swCTRDIR=EPwm2Regs.TBSTS.bit.CTRDIR;
+	if(swCTRDIR) {
+		EPwm2Regs.CMPB = 50;
+		EPwm2Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+	} else {
+		EPwm2Regs.CMPB = SWTBPRD-50;
+		EPwm2Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+	}
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 }
 
-#pragma CODE_SECTION(isr_CMPA_calc1, "ramfuncs");
+#pragma CODE_SECTION(isr_CMPA_calc3, "ramfuncs");
 interrupt void isr_CMPA_calc3(void)
 {
 	Uint16 swCTRDIR;
-	int32 swTBCTR; // Must be unsigned 32 bit integer because (swTBCTR-newSample)*FOH_SCALE could reach 12million; this exceeds the 16-bit integer size
-	int32 CMPA_value;
-	Uint16 newSample;
 
-	newSample = AdcResult.ADCRESULT2;
-	EPwm3Regs.CMPA.half.CMPA=newSample;
+	// Write the new sample to shadow of CMPA
+	EPwm3Regs.CMPA.half.CMPA=AdcResult.ADCRESULT2;
+
+	// Change CMPB value for ePWM3
+	swCTRDIR=EPwm3Regs.TBSTS.bit.CTRDIR;
+	if(swCTRDIR) {
+		EPwm3Regs.CMPB = 50;
+		EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+	} else {
+		EPwm3Regs.CMPB = SWTBPRD-50;
+		EPwm3Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+	}
 
 	// Acknowledge this interrupt to receive more interrupts from group 10
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP10;

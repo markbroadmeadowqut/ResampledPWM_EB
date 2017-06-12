@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v15.12.1                    
 ******************************************************************************
->> Linked Tue Apr 25 08:27:18 2017
+>> Linked Mon Jun 12 13:52:55 2017
 
 OUTPUT FILE NAME:   <F28027_ARegularPWM_Internally_Triggered.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 0000869a
+ENTRY POINT SYMBOL: "_c_int00"  address: 0000861f
 
 
 MEMORY CONFIGURATION
@@ -13,8 +13,8 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
   BEGIN                 00000000   00000002  00000002  00000000  RWIX
-  RAMM0                 00000050   000003b0  000000c0  000002f0  RWIX
-  PRAML0                00008000   00000900  000008b3  0000004d  RWIX
+  RAMM0                 00000050   000003b0  000000ff  000002b1  RWIX
+  PRAML0                00008000   00000900  00000805  000000fb  RWIX
   IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
   IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
   IQTABLES3             003febdc   000000aa  00000000  000000aa  RWIX
@@ -65,49 +65,46 @@ codestart
 *          0    00000000    00000002     
                   00000000    00000002     DSP2802x_CodeStartBranch.obj (codestart)
 
-ramfuncs   0    00000050    00000028     
-                  00000050    00000024     CMPA_calc.obj (ramfuncs:retain)
-                  00000074    00000004     DSP2802x_usDelay.obj (ramfuncs)
+ramfuncs   0    00000050    00000067     
+                  00000050    00000063     CMPA_calc.obj (ramfuncs:retain)
+                  000000b3    00000004     DSP2802x_usDelay.obj (ramfuncs)
 
-.cinit     0    00000078    0000001a     
-                  00000078    0000000e     rts2800_ml.lib : exit.obj (.cinit)
-                  00000086    00000005                    : _lock.obj (.cinit:__lock)
-                  0000008b    00000005                    : _lock.obj (.cinit:__unlock)
-                  00000090    00000002     --HOLE-- [fill = 0]
+.cinit     0    000000b7    0000001a     
+                  000000b7    0000000e     rts2800_ml.lib : exit.obj (.cinit)
+                  000000c5    00000005                    : _lock.obj (.cinit:__lock)
+                  000000ca    00000005                    : _lock.obj (.cinit:__unlock)
+                  000000cf    00000002     --HOLE-- [fill = 0]
 
-csm_rsvd   0    00000092    00000076     
-                  00000092    00000076     DSP2802x_CSMPasswords.obj (csm_rsvd)
+csm_rsvd   0    000000d1    00000076     
+                  000000d1    00000076     DSP2802x_CSMPasswords.obj (csm_rsvd)
 
 csmpasswds 
-*          0    00000108    00000008     
-                  00000108    00000008     DSP2802x_CSMPasswords.obj (csmpasswds)
+*          0    00000147    00000008     
+                  00000147    00000008     DSP2802x_CSMPasswords.obj (csmpasswds)
 
-.text      0    00008000    000008b3     
+.text      0    00008000    00000805     
                   00008000    000002f8     DSP2802x_SWPrioritizedDefaultIsr.obj (.text:retain)
-                  000082f8    00000132     pwm.obj (.text)
-                  0000842a    00000130     DSP2802x_SysCtrl.obj (.text)
-                  0000855a    00000074     ADC.obj (.text)
-                  000085ce    00000072     DSP2802x_CpuTimers.obj (.text)
-                  00008640    0000005a     rts2800_ml.lib : fs_mpy.obj (.text)
-                  0000869a    00000054                    : boot.obj (.text)
-                  000086ee    00000046                    : cpy_tbl.obj (.text)
-                  00008734    00000029                    : exit.obj (.text)
-                  0000875d    00000029                    : fs_tol.obj (.text)
-                  00008786    00000028     DSP2802x_PieCtrl.obj (.text)
-                  000087ae    00000027     CMPA_calc.obj (.text)
-                  000087d5    00000026     DSP2802x_SWPrioritizedPieVect.obj (.text)
-                  000087fb    00000023     main.obj (.text)
-                  0000881e    0000001f     timer.obj (.text)
-                  0000883d    0000001a     rts2800_ml.lib : cpy_utils.obj (.text)
-                  00008857    00000019                    : args_main.obj (.text)
-                  00008870    00000013     DSP2802x_Gpio.obj (.text)
-                  00008883    00000012     CMPA_calc.obj (.text:retain)
-                  00008895    00000009     rts2800_ml.lib : _lock.obj (.text)
-                  0000889e    00000008     DSP2802x_CodeStartBranch.obj (.text)
-                  000088a6    00000007     DSP2802x_DisInt.obj (.text)
-                  000088ad    00000003     DSP2802x_DBGIER.obj (.text)
-                  000088b0    00000002     rts2800_ml.lib : pre_init.obj (.text)
-                  000088b2    00000001                    : startup.obj (.text)
+                  000082f8    00000130     DSP2802x_SysCtrl.obj (.text)
+                  00008428    00000129     pwm.obj (.text)
+                  00008551    00000074     ADC.obj (.text)
+                  000085c5    0000005a     rts2800_ml.lib : fs_mpy.obj (.text)
+                  0000861f    00000054                    : boot.obj (.text)
+                  00008673    00000046                    : cpy_tbl.obj (.text)
+                  000086b9    00000029                    : exit.obj (.text)
+                  000086e2    00000029                    : fs_tol.obj (.text)
+                  0000870b    00000028     DSP2802x_PieCtrl.obj (.text)
+                  00008733    00000027     CMPA_calc.obj (.text)
+                  0000875a    00000026     DSP2802x_SWPrioritizedPieVect.obj (.text)
+                  00008780    00000021     main.obj (.text)
+                  000087a1    0000001a     rts2800_ml.lib : cpy_utils.obj (.text)
+                  000087bb    00000019                    : args_main.obj (.text)
+                  000087d4    00000013     DSP2802x_Gpio.obj (.text)
+                  000087e7    00000009     rts2800_ml.lib : _lock.obj (.text)
+                  000087f0    00000008     DSP2802x_CodeStartBranch.obj (.text)
+                  000087f8    00000007     DSP2802x_DisInt.obj (.text)
+                  000087ff    00000003     DSP2802x_DBGIER.obj (.text)
+                  00008802    00000002     rts2800_ml.lib : pre_init.obj (.text)
+                  00008804    00000001                    : startup.obj (.text)
 
 .pinit     0    00000050    00000000     UNINITIALIZED
 
@@ -263,28 +260,27 @@ MODULE SUMMARY
        Module                                 code   ro data   rw data
        ------                                 ----   -------   -------
     .\
-       pwm.obj                                306    0         0      
+       pwm.obj                                297    0         0      
+       CMPA_calc.obj                          138    0         0      
        ADC.obj                                116    0         0      
-       CMPA_calc.obj                          93     0         0      
-       main.obj                               35     0         0      
-       timer.obj                              31     0         0      
+       main.obj                               33     0         0      
     +--+--------------------------------------+------+---------+---------+
-       Total:                                 581    0         0      
+       Total:                                 584    0         0      
                                                                       
     .\DSP2802x_common\source\
        DSP2802x_SWPrioritizedDefaultIsr.obj   760    0         0      
        DSP2802x_SysCtrl.obj                   304    0         0      
        DSP2802x_SWPrioritizedPieVect.obj      38     0         256    
-       DSP2802x_CpuTimers.obj                 114    0         24     
        DSP2802x_CSMPasswords.obj              0      0         126    
        DSP2802x_PieCtrl.obj                   40     0         0      
+       DSP2802x_CpuTimers.obj                 0      0         24     
        DSP2802x_Gpio.obj                      19     0         0      
        DSP2802x_CodeStartBranch.obj           10     0         0      
        DSP2802x_DisInt.obj                    7      0         0      
        DSP2802x_usDelay.obj                   4      0         0      
        DSP2802x_DBGIER.obj                    3      0         0      
     +--+--------------------------------------+------+---------+---------+
-       Total:                                 1299   0         406    
+       Total:                                 1185   0         406    
                                                                       
     .\DSP2802x_headers\source\
        DSP2802x_GlobalVariableDefs.obj        0      0         998    
@@ -307,7 +303,7 @@ MODULE SUMMARY
                                                                       
        Stack:                                 0      0         768    
     +--+--------------------------------------+------+---------+---------+
-       Grand Total:                           2269   0         2206   
+       Grand Total:                           2158   0         2206   
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -388,9 +384,9 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                            
 ----  -------   ----                            
 0     00008000  .text                           
-0     00008734  C$$EXIT                         
-0     00008640  FS$$MPY                         
-0     0000875d  FS$$TOL                         
+0     000086b9  C$$EXIT                         
+0     000085c5  FS$$MPY                         
+0     000086e2  FS$$TOL                         
 0     0000807a  _ADCINT1_ISR                    
 0     00008090  _ADCINT2_ISR                    
 0     0000825a  _ADCINT3_ISR                    
@@ -404,7 +400,6 @@ page  address   name
 1     00000b00  _AdcResult                      
 1     00006400  _Comp1Regs                      
 1     00006420  _Comp2Regs                      
-0     0000860f  _ConfigCpuTimer                 
 1     00008a10  _CpuTimer0                      
 1     00000c00  _CpuTimer0Regs                  
 1     00008a00  _CpuTimer1                      
@@ -413,13 +408,13 @@ page  address   name
 1     00000c10  _CpuTimer2Regs                  
 1     003f7ff8  _CsmPwl                         
 1     00000ae0  _CsmRegs                        
-0     000084dd  _CsmUnlock                      
+0     000083ab  _CsmUnlock                      
 0     00008010  _DATALOG_ISR                    
-0     000088a6  _DSP28x_DisableInt              
-0     000088aa  _DSP28x_RestoreInt              
-0     00000074  _DSP28x_usDelay                 
+0     000087f8  _DSP28x_DisableInt              
+0     000087fc  _DSP28x_RestoreInt              
+0     000000b3  _DSP28x_usDelay                 
 1     00000880  _DevEmuRegs                     
-0     0000844e  _DisableDog                     
+0     0000831c  _DisableDog                     
 0     000081c0  _ECAP1_INT_ISR                  
 1     00006a00  _ECap1Regs                      
 0     00008020  _EMUINT_ISR                     
@@ -437,8 +432,8 @@ page  address   name
 1     000068c0  _EPwm4Regs                      
 1     00000d01  _EmuBMode                       
 1     00000d00  _EmuKey                         
-0     000087a5  _EnableInterrupts               
-0     00008544  _ExtOscSel                      
+0     0000872a  _EnableInterrupts               
+0     00008412  _ExtOscSel                      
 1     00000a80  _FlashRegs                      
 1     00000d04  _Flash_CPUScaleFactor           
 1     00000d02  _Flash_CallbackPtr              
@@ -451,15 +446,14 @@ page  address   name
 0     0000802c  _ILLEGAL_ISR                    
 0     00008000  _INT13_ISR                      
 0     00008008  _INT14_ISR                      
-0     000085ce  _InitCpuTimers                  
-0     00008870  _InitGpio                       
-0     000084ab  _InitPeripheralClocks           
-0     00008786  _InitPieCtrl                    
-0     000087d5  _InitPieVectTable               
-0     00008456  _InitPll                        
-0     0000842a  _InitSysCtrl                    
-0     0000850e  _IntOsc1Sel                     
-0     0000851e  _IntOsc2Sel                     
+0     000087d4  _InitGpio                       
+0     00008379  _InitPeripheralClocks           
+0     0000870b  _InitPieCtrl                    
+0     0000875a  _InitPieVectTable               
+0     00008324  _InitPll                        
+0     000082f8  _InitSysCtrl                    
+0     000083dc  _IntOsc1Sel                     
+0     000083ec  _IntOsc2Sel                     
 0     00008026  _NMI_ISR                        
 1     00007060  _NmiIntruptRegs                 
 0     000082ee  _PIE_RESERVED                   
@@ -473,8 +467,8 @@ page  address   name
 0     000081d6  _SPIRXINTA_ISR                  
 0     000081ec  _SPITXINTA_ISR                  
 1     00007050  _SciaRegs                       
-0     00008444  _ServiceDog                     
-0     000088ad  _SetDBGIER                      
+0     00008312  _ServiceDog                     
+0     000087ff  _SetDBGIER                      
 1     00007040  _SpiaRegs                       
 1     00007010  _SysCtrlRegs                    
 1     00000985  _SysPwrCtrlRegs                 
@@ -496,7 +490,7 @@ page  address   name
 0     000080ba  _XINT2_ISR                      
 0     000082d8  _XINT3_ISR                      
 1     00007070  _XIntruptRegs                   
-0     00008530  _XtalOscSel                     
+0     000083fe  _XtalOscSel                     
 1     00000700  __STACK_END                     
 abs   00000300  __STACK_SIZE                    
 1     00008a1a  ___TI_cleanup_ptr               
@@ -507,43 +501,42 @@ abs   ffffffff  ___TI_prof_data_size
 abs   ffffffff  ___TI_prof_data_start           
 abs   ffffffff  ___binit__                      
 abs   ffffffff  ___c_args__                     
-0     00000078  ___cinit__                      
-0     000088b3  ___etext__                      
+0     000000b7  ___cinit__                      
+0     00008805  ___etext__                      
 abs   ffffffff  ___pinit__                      
 0     00008000  ___text__                       
-0     00008857  __args_main                     
+0     000087bb  __args_main                     
 1     00008a1e  __lock                          
-0     0000889d  __nop                           
-0     00008899  __register_lock                 
-0     00008895  __register_unlock               
+0     000087ef  __nop                           
+0     000087eb  __register_lock                 
+0     000087e7  __register_unlock               
 1     00000400  __stack                         
-0     000088b2  __system_post_cinit             
-0     000088b0  __system_pre_init               
+0     00008804  __system_post_cinit             
+0     00008802  __system_pre_init               
 1     00008a20  __unlock                        
-0     00008734  _abort                          
-0     0000869a  _c_int00                        
-0     000086ee  _copy_in                        
-0     0000883d  _ddcopy                         
-0     0000883d  _dpcopy                         
-0     00008736  _exit                           
-0     000087fb  _init                           
-0     0000855a  _initADC                        
-0     000087ae  _initCMPAcalc                   
-0     000082f8  _initPWM                        
-0     0000881e  _initTimer                      
+0     000086b9  _abort                          
+0     0000861f  _c_int00                        
+0     00008673  _copy_in                        
+0     000087a1  _ddcopy                         
+0     000087a1  _dpcopy                         
+0     000086bb  _exit                           
+0     00008780  _init                           
+0     00008551  _initADC                        
+0     00008733  _initCMPAcalc                   
+0     00008428  _initPWM                        
 0     00000050  _isr_CMPA_calc1                 
-0     00000062  _isr_CMPA_calc2                 
-0     00008883  _isr_CMPA_calc3                 
-0     00008819  _main                           
-0     0000883d  _pdcopy                         
-0     0000883d  _ppcopy                         
-0     000083f7  _pwmStart                       
-0     00008411  _pwmStop                        
+0     00000071  _isr_CMPA_calc2                 
+0     00000092  _isr_CMPA_calc3                 
+0     0000879c  _main                           
+0     000087a1  _pdcopy                         
+0     000087a1  _ppcopy                         
+0     0000851e  _pwmStart                       
+0     00008538  _pwmStop                        
 0     000082f3  _rsvd_ISR                       
 abs   ffffffff  binit                           
-0     00000078  cinit                           
+0     000000b7  cinit                           
 0     00000000  code_start                      
-0     000088b3  etext                           
+0     00008805  etext                           
 abs   ffffffff  pinit                           
 
 
@@ -553,10 +546,11 @@ page  address   name
 ----  -------   ----                            
 0     00000000  code_start                      
 0     00000050  _isr_CMPA_calc1                 
-0     00000062  _isr_CMPA_calc2                 
-0     00000074  _DSP28x_usDelay                 
-0     00000078  ___cinit__                      
-0     00000078  cinit                           
+0     00000071  _isr_CMPA_calc2                 
+0     00000092  _isr_CMPA_calc3                 
+0     000000b3  _DSP28x_usDelay                 
+0     000000b7  ___cinit__                      
+0     000000b7  cinit                           
 0     00008000  .text                           
 0     00008000  _INT13_ISR                      
 0     00008000  ___text__                       
@@ -609,53 +603,49 @@ page  address   name
 0     000082d8  _XINT3_ISR                      
 0     000082ee  _PIE_RESERVED                   
 0     000082f3  _rsvd_ISR                       
-0     000082f8  _initPWM                        
-0     000083f7  _pwmStart                       
-0     00008411  _pwmStop                        
-0     0000842a  _InitSysCtrl                    
-0     00008444  _ServiceDog                     
-0     0000844e  _DisableDog                     
-0     00008456  _InitPll                        
-0     000084ab  _InitPeripheralClocks           
-0     000084dd  _CsmUnlock                      
-0     0000850e  _IntOsc1Sel                     
-0     0000851e  _IntOsc2Sel                     
-0     00008530  _XtalOscSel                     
-0     00008544  _ExtOscSel                      
-0     0000855a  _initADC                        
-0     000085ce  _InitCpuTimers                  
-0     0000860f  _ConfigCpuTimer                 
-0     00008640  FS$$MPY                         
-0     0000869a  _c_int00                        
-0     000086ee  _copy_in                        
-0     00008734  C$$EXIT                         
-0     00008734  _abort                          
-0     00008736  _exit                           
-0     0000875d  FS$$TOL                         
-0     00008786  _InitPieCtrl                    
-0     000087a5  _EnableInterrupts               
-0     000087ae  _initCMPAcalc                   
-0     000087d5  _InitPieVectTable               
-0     000087fb  _init                           
-0     00008819  _main                           
-0     0000881e  _initTimer                      
-0     0000883d  _ddcopy                         
-0     0000883d  _dpcopy                         
-0     0000883d  _pdcopy                         
-0     0000883d  _ppcopy                         
-0     00008857  __args_main                     
-0     00008870  _InitGpio                       
-0     00008883  _isr_CMPA_calc3                 
-0     00008895  __register_unlock               
-0     00008899  __register_lock                 
-0     0000889d  __nop                           
-0     000088a6  _DSP28x_DisableInt              
-0     000088aa  _DSP28x_RestoreInt              
-0     000088ad  _SetDBGIER                      
-0     000088b0  __system_pre_init               
-0     000088b2  __system_post_cinit             
-0     000088b3  ___etext__                      
-0     000088b3  etext                           
+0     000082f8  _InitSysCtrl                    
+0     00008312  _ServiceDog                     
+0     0000831c  _DisableDog                     
+0     00008324  _InitPll                        
+0     00008379  _InitPeripheralClocks           
+0     000083ab  _CsmUnlock                      
+0     000083dc  _IntOsc1Sel                     
+0     000083ec  _IntOsc2Sel                     
+0     000083fe  _XtalOscSel                     
+0     00008412  _ExtOscSel                      
+0     00008428  _initPWM                        
+0     0000851e  _pwmStart                       
+0     00008538  _pwmStop                        
+0     00008551  _initADC                        
+0     000085c5  FS$$MPY                         
+0     0000861f  _c_int00                        
+0     00008673  _copy_in                        
+0     000086b9  C$$EXIT                         
+0     000086b9  _abort                          
+0     000086bb  _exit                           
+0     000086e2  FS$$TOL                         
+0     0000870b  _InitPieCtrl                    
+0     0000872a  _EnableInterrupts               
+0     00008733  _initCMPAcalc                   
+0     0000875a  _InitPieVectTable               
+0     00008780  _init                           
+0     0000879c  _main                           
+0     000087a1  _ddcopy                         
+0     000087a1  _dpcopy                         
+0     000087a1  _pdcopy                         
+0     000087a1  _ppcopy                         
+0     000087bb  __args_main                     
+0     000087d4  _InitGpio                       
+0     000087e7  __register_unlock               
+0     000087eb  __register_lock                 
+0     000087ef  __nop                           
+0     000087f8  _DSP28x_DisableInt              
+0     000087fc  _DSP28x_RestoreInt              
+0     000087ff  _SetDBGIER                      
+0     00008802  __system_pre_init               
+0     00008804  __system_post_cinit             
+0     00008805  ___etext__                      
+0     00008805  etext                           
 1     00000400  __stack                         
 1     00000700  __STACK_END                     
 1     00000880  _DevEmuRegs                     
@@ -710,4 +700,4 @@ abs   ffffffff  ___pinit__
 abs   ffffffff  binit                           
 abs   ffffffff  pinit                           
 
-[158 symbols]
+[155 symbols]

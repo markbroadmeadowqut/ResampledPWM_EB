@@ -52,9 +52,9 @@ void initADC() {
 	AdcRegs.ADCSOC1CTL.bit.ACQPS = 0x06;
 	AdcRegs.ADCSOC2CTL.bit.ACQPS = 0x06;
 
-	AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x00; // Associate input channel ADCINA0 with SOC0
-	AdcRegs.ADCSOC1CTL.bit.CHSEL = 0x01; // Associate input channel ADCINA1 with SOC1
-	AdcRegs.ADCSOC2CTL.bit.CHSEL = 0x02; // Associate input channel ADCINA2 with SOC2
+	AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC0
+	AdcRegs.ADCSOC1CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC1
+	AdcRegs.ADCSOC2CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC2
 
 	AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x05; // Trigger SOC0 (which feeds EPWM1) from EPWM1, ADCSOCA
 	AdcRegs.ADCSOC1CTL.bit.TRIGSEL = 0x07; // Trigger SOC1 (which feeds EPWM2) from EPWM2, ADCSOCA

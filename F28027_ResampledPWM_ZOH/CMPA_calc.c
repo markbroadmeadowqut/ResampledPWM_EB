@@ -9,16 +9,27 @@
 #include "config.h"
 #include <math.h>
 
-interrupt void isr_CMPA_calc(void);
+volatile Uint16 swCTRDIR1;
+volatile Uint16 swCTRDIR2;
+volatile Uint16 swCTRDIR3;
+
+interrupt void isr_CMPA_calc1(void);
+interrupt void isr_CMPA_calc2(void);
+interrupt void isr_CMPA_calc3(void);
 
 
 void initCMPAcalc() {
 	EALLOW;
-	PieVectTable.ADCINT1 = &isr_CMPA_calc;
+	PieVectTable.ADCINT1 = &isr_CMPA_calc1;
+	PieVectTable.ADCINT2 = &isr_CMPA_calc2;
+	PieVectTable.ADCINT3 = &isr_CMPA_calc3;
 	EDIS;
 
-	PieCtrlRegs.PIEIER1.bit.INTx1 = 1;     // Enable PIE Group 1, INT1, ADCINT1
+	PieCtrlRegs.PIEIER1.bit.INTx1 = 1;     // Enable ADCINT1
+	PieCtrlRegs.PIEIER1.bit.INTx2 = 1;     // Enable ADCINT2
+	PieCtrlRegs.PIEIER10.bit.INTx3 = 1;     // Enable ADCINT3
 	IER |= M_INT1;
+	IER |= M_INT10;
 
 	//DEBUG
 	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
@@ -29,24 +40,22 @@ void initCMPAcalc() {
 }
 
 
-#pragma CODE_SECTION(isr_CMPA_calc, "ramfuncs");
-interrupt void isr_CMPA_calc(void)
+#pragma CODE_SECTION(isr_CMPA_calc1, "ramfuncs");
+interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
-	int32 swTBCTR; // Must be unsigned 32 bit integer because (swTBCTR-newSample)*FOH_SCALE could reach 12million; this exceeds the 16-bit integer size
-	int32 CMPA_value;
+	Uint16 swTBCTR;
 	Uint16 newSample;
 
-	newSample = AdcResult.ADCRESULT0;
+	// Write the new sample to CMPA (active)
+	newSample=AdcResult.ADCRESULT0;
 	EPwm1Regs.CMPA.half.CMPA=newSample;
-	EPwm2Regs.CMPA.half.CMPA=newSample;
-	EPwm3Regs.CMPA.half.CMPA=newSample;
 
 	// Check if the edge has been missed for ePWM1
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	swTBCTR = EPwm1Regs.TBCTR;
 	if(swCTRDIR) {
-		if(newSample<=swTBCTR) {
+		if(EPwm1Regs.CMPA.half.CMPA<=swTBCTR) {
 			EALLOW;
 			EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 			EDIS;
@@ -61,7 +70,40 @@ interrupt void isr_CMPA_calc(void)
 		}
 	}
 
-	// Check if the edge has been missed for ePWM2
+	if(swCTRDIR1) {
+		if(EPwm1Regs.CMPB==SWTBPRD) {
+			EPwm1Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+			swCTRDIR1=0;
+			EPwm1Regs.CMPB = EPwm1Regs.CMPB-CMPB_increment;
+		} else {
+			EPwm1Regs.CMPB = EPwm1Regs.CMPB+CMPB_increment;
+		}
+	} else {
+		if(EPwm1Regs.CMPB==0) {
+			EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+			swCTRDIR1=1;
+			EPwm1Regs.CMPB = EPwm1Regs.CMPB+CMPB_increment;
+		} else {
+			EPwm1Regs.CMPB = EPwm1Regs.CMPB-CMPB_increment;
+		}
+	}
+
+	// Acknowledge this interrupt to receive more interrupts from group 1
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}
+
+#pragma CODE_SECTION(isr_CMPA_calc2, "ramfuncs");
+interrupt void isr_CMPA_calc2(void)
+{
+	Uint16 swCTRDIR;
+	Uint16 swTBCTR;
+	Uint16 newSample;
+
+	// Write the new sample to CMPA (active)
+	newSample=AdcResult.ADCRESULT1;
+	EPwm2Regs.CMPA.half.CMPA=newSample;
+
+	// Check if the edge has been missed for ePWM1
 	swCTRDIR = EPwm2Regs.TBSTS.bit.CTRDIR;
 	swTBCTR = EPwm2Regs.TBCTR;
 	if(swCTRDIR) {
@@ -80,7 +122,40 @@ interrupt void isr_CMPA_calc(void)
 		}
 	}
 
-	// Check if the edge has been missed for ePWM3
+	if(swCTRDIR2) {
+		if(EPwm2Regs.CMPB==SWTBPRD) {
+			EPwm2Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+			swCTRDIR2=0;
+			EPwm2Regs.CMPB = EPwm2Regs.CMPB-CMPB_increment;
+		} else {
+			EPwm2Regs.CMPB = EPwm2Regs.CMPB+CMPB_increment;
+		}
+	} else {
+		if(EPwm2Regs.CMPB==0) {
+			EPwm2Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+			swCTRDIR2=1;
+			EPwm2Regs.CMPB = EPwm2Regs.CMPB+CMPB_increment;
+		} else {
+			EPwm2Regs.CMPB = EPwm2Regs.CMPB-CMPB_increment;
+		}
+	}
+
+	// Acknowledge this interrupt to receive more interrupts from group 1
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}
+
+#pragma CODE_SECTION(isr_CMPA_calc3, "ramfuncs");
+interrupt void isr_CMPA_calc3(void)
+{
+	Uint16 swCTRDIR;
+	Uint16 swTBCTR;
+	Uint16 newSample;
+
+	// Write the new sample to CMPA (active)
+	newSample=AdcResult.ADCRESULT2;
+	EPwm3Regs.CMPA.half.CMPA=newSample;
+
+	// Check if the edge has been missed for ePWM1
 	swCTRDIR = EPwm3Regs.TBSTS.bit.CTRDIR;
 	swTBCTR = EPwm3Regs.TBCTR;
 	if(swCTRDIR) {
@@ -99,6 +174,26 @@ interrupt void isr_CMPA_calc(void)
 		}
 	}
 
-	// Acknowledge this interrupt to receive more interrupts from group 1
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+	if(swCTRDIR3) {
+		if(EPwm3Regs.CMPB==SWTBPRD) {
+			EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+			swCTRDIR3=0;
+			EPwm3Regs.CMPB = EPwm3Regs.CMPB-CMPB_increment;
+		} else {
+			EPwm3Regs.CMPB = EPwm3Regs.CMPB+CMPB_increment;
+		}
+	} else {
+		if(EPwm3Regs.CMPB==0) {
+			EPwm3Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+			swCTRDIR3=1;
+			EPwm3Regs.CMPB = EPwm3Regs.CMPB+CMPB_increment;
+		} else {
+			EPwm3Regs.CMPB = EPwm3Regs.CMPB-CMPB_increment;
+		}
+	}
+
+	// Acknowledge this interrupt to receive more interrupts from group 10
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP10;
 }
+
+

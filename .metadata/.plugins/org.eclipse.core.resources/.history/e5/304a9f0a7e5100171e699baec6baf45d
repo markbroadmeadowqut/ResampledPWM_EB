@@ -9,7 +9,6 @@
 #include "config.h"
 #include <math.h>
 
-volatile Uint16 CMPA;
 interrupt void isr_CMPA_calc1(void);
 interrupt void isr_CMPA_calc2(void);
 interrupt void isr_CMPA_calc3(void);
@@ -43,15 +42,7 @@ interrupt void isr_CMPA_calc1(void)
 	Uint16 swCTRDIR;
 
 	// Write the new sample to shadow of CMPA
-	//EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
-
-	// Write the new sample to CMPA (active)
-	CMPA=CMPA+75;
-	if(CMPA==SWTBPRD) {
-		CMPA=0;
-		GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	}
-	EPwm1Regs.CMPA.half.CMPA=CMPA;
+	EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
 
 	// Change CMPB value for ePWM1
 	swCTRDIR=EPwm1Regs.TBSTS.bit.CTRDIR;

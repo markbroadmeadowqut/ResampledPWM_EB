@@ -2,8 +2,6 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-SHELL = cmd.exe
-
 # Add inputs and outputs from these tool invocations to the build variables 
 ASM_SRCS += \
 ../DSP2802x_common/source/DSP2802x_CSMPasswords.asm \
@@ -29,24 +27,6 @@ C_SRCS += \
 ../DSP2802x_common/source/DSP2802x_Spi.c \
 ../DSP2802x_common/source/DSP2802x_SysCtrl.c \
 ../DSP2802x_common/source/DSP2802x_TempSensorConv.c 
-
-C_DEPS += \
-./DSP2802x_common/source/DSP2802x_Adc.d \
-./DSP2802x_common/source/DSP2802x_Comp.d \
-./DSP2802x_common/source/DSP2802x_CpuTimers.d \
-./DSP2802x_common/source/DSP2802x_ECap.d \
-./DSP2802x_common/source/DSP2802x_EPwm.d \
-./DSP2802x_common/source/DSP2802x_Gpio.d \
-./DSP2802x_common/source/DSP2802x_I2C.d \
-./DSP2802x_common/source/DSP2802x_MemCopy.d \
-./DSP2802x_common/source/DSP2802x_OscComp.d \
-./DSP2802x_common/source/DSP2802x_PieCtrl.d \
-./DSP2802x_common/source/DSP2802x_SWPrioritizedDefaultIsr.d \
-./DSP2802x_common/source/DSP2802x_SWPrioritizedPieVect.d \
-./DSP2802x_common/source/DSP2802x_Sci.d \
-./DSP2802x_common/source/DSP2802x_Spi.d \
-./DSP2802x_common/source/DSP2802x_SysCtrl.d \
-./DSP2802x_common/source/DSP2802x_TempSensorConv.d 
 
 OBJS += \
 ./DSP2802x_common/source/DSP2802x_Adc.obj \
@@ -78,6 +58,42 @@ ASM_DEPS += \
 ./DSP2802x_common/source/DSP2802x_DisInt.d \
 ./DSP2802x_common/source/DSP2802x_usDelay.d 
 
+C_DEPS += \
+./DSP2802x_common/source/DSP2802x_Adc.d \
+./DSP2802x_common/source/DSP2802x_Comp.d \
+./DSP2802x_common/source/DSP2802x_CpuTimers.d \
+./DSP2802x_common/source/DSP2802x_ECap.d \
+./DSP2802x_common/source/DSP2802x_EPwm.d \
+./DSP2802x_common/source/DSP2802x_Gpio.d \
+./DSP2802x_common/source/DSP2802x_I2C.d \
+./DSP2802x_common/source/DSP2802x_MemCopy.d \
+./DSP2802x_common/source/DSP2802x_OscComp.d \
+./DSP2802x_common/source/DSP2802x_PieCtrl.d \
+./DSP2802x_common/source/DSP2802x_SWPrioritizedDefaultIsr.d \
+./DSP2802x_common/source/DSP2802x_SWPrioritizedPieVect.d \
+./DSP2802x_common/source/DSP2802x_Sci.d \
+./DSP2802x_common/source/DSP2802x_Spi.d \
+./DSP2802x_common/source/DSP2802x_SysCtrl.d \
+./DSP2802x_common/source/DSP2802x_TempSensorConv.d 
+
+C_DEPS__QUOTED += \
+"DSP2802x_common\source\DSP2802x_Adc.d" \
+"DSP2802x_common\source\DSP2802x_Comp.d" \
+"DSP2802x_common\source\DSP2802x_CpuTimers.d" \
+"DSP2802x_common\source\DSP2802x_ECap.d" \
+"DSP2802x_common\source\DSP2802x_EPwm.d" \
+"DSP2802x_common\source\DSP2802x_Gpio.d" \
+"DSP2802x_common\source\DSP2802x_I2C.d" \
+"DSP2802x_common\source\DSP2802x_MemCopy.d" \
+"DSP2802x_common\source\DSP2802x_OscComp.d" \
+"DSP2802x_common\source\DSP2802x_PieCtrl.d" \
+"DSP2802x_common\source\DSP2802x_SWPrioritizedDefaultIsr.d" \
+"DSP2802x_common\source\DSP2802x_SWPrioritizedPieVect.d" \
+"DSP2802x_common\source\DSP2802x_Sci.d" \
+"DSP2802x_common\source\DSP2802x_Spi.d" \
+"DSP2802x_common\source\DSP2802x_SysCtrl.d" \
+"DSP2802x_common\source\DSP2802x_TempSensorConv.d" 
+
 OBJS__QUOTED += \
 "DSP2802x_common\source\DSP2802x_Adc.obj" \
 "DSP2802x_common\source\DSP2802x_CSMPasswords.obj" \
@@ -100,24 +116,6 @@ OBJS__QUOTED += \
 "DSP2802x_common\source\DSP2802x_SysCtrl.obj" \
 "DSP2802x_common\source\DSP2802x_TempSensorConv.obj" \
 "DSP2802x_common\source\DSP2802x_usDelay.obj" 
-
-C_DEPS__QUOTED += \
-"DSP2802x_common\source\DSP2802x_Adc.d" \
-"DSP2802x_common\source\DSP2802x_Comp.d" \
-"DSP2802x_common\source\DSP2802x_CpuTimers.d" \
-"DSP2802x_common\source\DSP2802x_ECap.d" \
-"DSP2802x_common\source\DSP2802x_EPwm.d" \
-"DSP2802x_common\source\DSP2802x_Gpio.d" \
-"DSP2802x_common\source\DSP2802x_I2C.d" \
-"DSP2802x_common\source\DSP2802x_MemCopy.d" \
-"DSP2802x_common\source\DSP2802x_OscComp.d" \
-"DSP2802x_common\source\DSP2802x_PieCtrl.d" \
-"DSP2802x_common\source\DSP2802x_SWPrioritizedDefaultIsr.d" \
-"DSP2802x_common\source\DSP2802x_SWPrioritizedPieVect.d" \
-"DSP2802x_common\source\DSP2802x_Sci.d" \
-"DSP2802x_common\source\DSP2802x_Spi.d" \
-"DSP2802x_common\source\DSP2802x_SysCtrl.d" \
-"DSP2802x_common\source\DSP2802x_TempSensorConv.d" 
 
 ASM_DEPS__QUOTED += \
 "DSP2802x_common\source\DSP2802x_CSMPasswords.d" \

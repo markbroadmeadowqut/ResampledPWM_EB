@@ -40,7 +40,7 @@ void initPWM() {
 	EPwm1Regs.DBRED = 60; // Use a rising-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
 	EPwm1Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
 	EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing to begin with because ePWM1 starts counting up
-	EPwm1Regs.CMPB = SWTBPRD-50; // Hopefully 50 CPU clock cycle is long enough for the ADC to complete its sample and the interrupt to write the result to the CMPA shadow
+	EPwm1Regs.CMPB = CMPB_increment; // Hopefully 50 CPU clock cycle is long enough for the ADC to complete its sample and the interrupt to write the result to the CMPA shadow
 	EPwm1Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 
 
@@ -68,7 +68,7 @@ void initPWM() {
 	EPwm2Regs.DBRED = 60;
 	EPwm2Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
 	EPwm2Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing to begin with because ePWM2 starts counting up
-	EPwm2Regs.CMPB = SWTBPRD-50;
+	EPwm2Regs.CMPB = 3000;
 	EPwm2Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 
 
@@ -96,7 +96,7 @@ void initPWM() {
 	EPwm3Regs.DBRED = 60;
 	EPwm3Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
 	EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing to begin with because ePWM3 starts counting down
-	EPwm3Regs.CMPB = 50;
+	EPwm3Regs.CMPB = 2250;
 	EPwm3Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 	
 	

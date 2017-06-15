@@ -9,9 +9,9 @@
 #include "config.h"
 #include <math.h>
 
-volatile Uint16 swCTRDIR1;
-volatile Uint16 swCTRDIR2;
-volatile Uint16 swCTRDIR3;
+volatile Uint16 swCTRDIR1=1;
+volatile Uint16 swCTRDIR2=1;
+volatile Uint16 swCTRDIR3=0;
 
 interrupt void isr_CMPA_calc1(void);
 interrupt void isr_CMPA_calc2(void);
@@ -32,7 +32,7 @@ void initCMPAcalc() {
 	IER |= M_INT10;
 
 	//DEBUG
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 	EALLOW;
 	GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;				// Set GPIO29 as output
 	EDIS;
@@ -45,24 +45,23 @@ interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
 	Uint16 swTBCTR;
-	Uint16 newSample;
+	int16 CMPB;
 
 	// Write the new sample to CMPA (active)
-	newSample=AdcResult.ADCRESULT0;
-	EPwm1Regs.CMPA.half.CMPA=newSample;
+	EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
 
 	// Check if the edge has been missed for ePWM1
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	swTBCTR = EPwm1Regs.TBCTR;
 	if(swCTRDIR) {
-		if(EPwm1Regs.CMPA.half.CMPA<=swTBCTR) {
+		if(AdcResult.ADCRESULT0<=swTBCTR) {
 			EALLOW;
 			EPwm1Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
 			EDIS;
 			EPwm1Regs.AQSFRC.bit.OTSFA = 1;
 		}
 	} else {
-		if(newSample>=swTBCTR) {
+		if(AdcResult.ADCRESULT0>=swTBCTR) {
 			EALLOW;
 			EPwm1Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force
 			EDIS;
@@ -70,21 +69,28 @@ interrupt void isr_CMPA_calc1(void)
 		}
 	}
 
+	CMPB=EPwm1Regs.CMPB;
 	if(swCTRDIR1) {
-		if(EPwm1Regs.CMPB==SWTBPRD) {
+		if(CMPB==SWTBPRD) {
+			CMPB = CMPB-CMPB_increment;
+			EPwm1Regs.CMPB=CMPB;
 			EPwm1Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
 			swCTRDIR1=0;
-			EPwm1Regs.CMPB = EPwm1Regs.CMPB-CMPB_increment;
 		} else {
-			EPwm1Regs.CMPB = EPwm1Regs.CMPB+CMPB_increment;
+			CMPB = CMPB+CMPB_increment;
+			EPwm1Regs.CMPB=CMPB;
+			GpioDataRegs.GPATOGGLE.bit.GPIO29 = 1;
 		}
 	} else {
-		if(EPwm1Regs.CMPB==0) {
+		if(CMPB==0) {
+			CMPB = CMPB+CMPB_increment;
+			EPwm1Regs.CMPB=CMPB;
 			EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 			swCTRDIR1=1;
-			EPwm1Regs.CMPB = EPwm1Regs.CMPB+CMPB_increment;
 		} else {
-			EPwm1Regs.CMPB = EPwm1Regs.CMPB-CMPB_increment;
+			CMPB = CMPB-CMPB_increment;
+			EPwm1Regs.CMPB=CMPB;
+			GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 		}
 	}
 

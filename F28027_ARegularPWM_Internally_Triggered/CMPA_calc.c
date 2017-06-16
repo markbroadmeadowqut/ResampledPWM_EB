@@ -42,29 +42,35 @@ interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
 
+	GpioDataRegs.GPASET.bit.GPIO29 = 1;
+
 	// Write the new sample to shadow of CMPA
-	//EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
+	EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
 
 	// Write the new sample to CMPA (active)
-	CMPA=CMPA+75;
-	if(CMPA==SWTBPRD) {
-		CMPA=0;
-		GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	}
-	EPwm1Regs.CMPA.half.CMPA=CMPA;
+	//CMPA=CMPA+75;
+	//if(CMPA==SWTBPRD) {
+	//	CMPA=0;
+	//	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
+	//}
+	//EPwm1Regs.CMPA.half.CMPA=CMPA;
 
 	// Change CMPB value for ePWM1
 	swCTRDIR=EPwm1Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		EPwm1Regs.CMPB = 50;
+		EPwm1Regs.CMPB = SOC_LEAD_FACTOR;
 		EPwm1Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
 	} else {
-		EPwm1Regs.CMPB = SWTBPRD-50;
+		EPwm1Regs.CMPB = SWTBPRD-SOC_LEAD_FACTOR;
 		EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	}
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+
+	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+
+
 }
 
 #pragma CODE_SECTION(isr_CMPA_calc2, "ramfuncs");
@@ -72,16 +78,17 @@ interrupt void isr_CMPA_calc2(void)
 {
 	Uint16 swCTRDIR;
 
+
 	// Write the new sample to shadow of CMPA
 	EPwm2Regs.CMPA.half.CMPA=AdcResult.ADCRESULT1;
 
 	// Change CMPB value for ePWM2
 	swCTRDIR=EPwm2Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		EPwm2Regs.CMPB = 50;
+		EPwm2Regs.CMPB = SOC_LEAD_FACTOR;
 		EPwm2Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
 	} else {
-		EPwm2Regs.CMPB = SWTBPRD-50;
+		EPwm2Regs.CMPB = SWTBPRD-SOC_LEAD_FACTOR;
 		EPwm2Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	}
 
@@ -94,16 +101,17 @@ interrupt void isr_CMPA_calc3(void)
 {
 	Uint16 swCTRDIR;
 
+
 	// Write the new sample to shadow of CMPA
 	EPwm3Regs.CMPA.half.CMPA=AdcResult.ADCRESULT2;
 
 	// Change CMPB value for ePWM3
 	swCTRDIR=EPwm3Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		EPwm3Regs.CMPB = 50;
+		EPwm3Regs.CMPB = SOC_LEAD_FACTOR;
 		EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
 	} else {
-		EPwm3Regs.CMPB = SWTBPRD-50;
+		EPwm3Regs.CMPB = SWTBPRD-SOC_LEAD_FACTOR;
 		EPwm3Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	}
 

@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="GPIO29" key="selection"/>
+		<item value="ACQPS" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="acqps"/>
+			<item value="ac"/>
 			<item value="GPIO6"/>
 			<item value="gpio6"/>
 			<item value="GPIO12"/>
 			<item value="GPIO19"/>
 			<item value="GPIO16"/>
 			<item value="gpio12"/>
-			<item value="gpio16"/>
-			<item value="gpio2"/>
 		</list>
 		<list key="replacehistory">
 			<item value="GPIO29"/>

@@ -25,9 +25,9 @@ CMPA_calc.obj: C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/in
 CMPA_calc.obj: C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include/DSP2802x_I2C_defines.h
 CMPA_calc.obj: C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include/DSP2802x_DefaultISR.h
 CMPA_calc.obj: ../config.h
-CMPA_calc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include/math.h
-CMPA_calc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include/linkage.h
-CMPA_calc.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include/_defs.h
+CMPA_calc.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include/math.h
+CMPA_calc.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include/linkage.h
+CMPA_calc.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include/_defs.h
 
 ../CMPA_calc.c: 
 C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include/DSP28x_Project.h: 
@@ -54,6 +54,6 @@ C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include/DSP2802x_
 C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include/DSP2802x_I2C_defines.h: 
 C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include/DSP2802x_DefaultISR.h: 
 ../config.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include/math.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include/linkage.h: 
-C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include/_defs.h: 
+C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include/math.h: 
+C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include/linkage.h: 
+C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include/_defs.h: 

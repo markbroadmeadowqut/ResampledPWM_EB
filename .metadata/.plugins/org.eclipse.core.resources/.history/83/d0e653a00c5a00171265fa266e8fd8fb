@@ -79,7 +79,10 @@ interrupt void isr_CMPA_calc(void)
 		swTBCTR = EPwm1Regs.TBCTR;
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
-		if(ti>96) {
+		EPwm1Regs.CMPA.half.CMPA=CMPA_value;
+		//DEBUG
+		GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+		if(ti<96) {
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	}
@@ -96,15 +99,23 @@ interrupt void isr_CMPA_calc(void)
 		// a signed 32-bit format for ti is necessary. The smallest non-zero value that ti can take is round(2*3000/6000)=1,
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
-		if(ti>96) {
-			EPwm2Regs.CMPA.half.CMPA=CMPA_value;
+		EPwm2Regs.CMPA.half.CMPA=CMPA_value;
+		if(ti<204) { //96*2+12=204, factir of 12 is due to the extra ~0.2us required for software forcing check on the last module
+			EALLOW;
+			EPwm2Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
+			EDIS;
+			EPwm2Regs.AQSFRC.bit.OTSFA = 1;
 		}
 	} else {
 		swTBCTR = EPwm2Regs.TBCTR;
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
-		if(ti>96) {
-			EPwm2Regs.CMPA.half.CMPA=CMPA_value;
+		EPwm2Regs.CMPA.half.CMPA=CMPA_value;
+		if(ti<204) {
+			EALLOW;
+			EPwm2Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force
+			EDIS;
+			EPwm2Regs.AQSFRC.bit.OTSFA = 1;
 		}
 	}
 
@@ -120,15 +131,25 @@ interrupt void isr_CMPA_calc(void)
 		// a signed 32-bit format for ti is necessary. The smallest non-zero value that ti can take is round(2*3000/6000)=1,
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
-		if(ti>96) {
-			EPwm3Regs.CMPA.half.CMPA=CMPA_value;
+		EPwm3Regs.CMPA.half.CMPA=CMPA_value;
+		if(ti<312) { //96*3+2*12=312; Note that 312 is about 10% of 3000, so only 10% of all FOH switching instant
+			// calculations for ePWM3 are made innaccurate by the need for software forcing, and that inaccuracy should
+			// only amount to samples from a uniform distribution that is bounded by [0us,5us].
+			EALLOW;
+			EPwm3Regs.AQSFRC.bit.ACTSFA = 1;	// Set output low on software force
+			EDIS;
+			EPwm3Regs.AQSFRC.bit.OTSFA = 1;
 		}
 	} else {
 		swTBCTR = EPwm3Regs.TBCTR;
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
-		if(ti>96) {
-			EPwm3Regs.CMPA.half.CMPA=CMPA_value;
+		EPwm3Regs.CMPA.half.CMPA=CMPA_value;
+		if(ti<312) {
+			EALLOW;
+			EPwm3Regs.AQSFRC.bit.ACTSFA = 10;	// Set output high on software force
+			EDIS;
+			EPwm3Regs.AQSFRC.bit.OTSFA = 1;
 		}
 	}
 

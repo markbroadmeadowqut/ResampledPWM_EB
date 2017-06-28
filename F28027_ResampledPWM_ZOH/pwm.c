@@ -23,15 +23,13 @@ void initPWM() {
 	EPwm1Regs.TBCTL.bit.PHSDIR = 1; // After the sync event, ePWM1 will count up from phase 0
 	EPwm1Regs.TBCTL.bit.PHSEN = TB_ENABLE; // Phase loading enabled
 	EPwm1Regs.TBCTL.bit.PRDLD = TB_IMMEDIATE; // Load the TBPRD register immediately without using a shadow register
-	EPwm1Regs.TBCTL.bit.HSPCLKDIV = TB_DIV1; // TBCLK = SYSCLKOUT
-	EPwm1Regs.TBCTL.bit.CLKDIV = TB_DIV1; // TBCLK = SYSCLKOUT
+	EPwm1Regs.TBCTL.bit.HSPCLKDIV = 000; // TBCLK = SYSCLKOUT
+	EPwm1Regs.TBCTL.bit.CLKDIV = 000; // TBCLK = SYSCLKOUT
 	EPwm1Regs.TBCTL.bit.SYNCOSEL = 00; // Associate ePWM1SYNCO with ePWM1SYNCI; this should ensure that the software-forced sync event triggers all of the other ePWM modules
 	EPwm1Regs.CMPCTL.bit.SHDWAMODE = CC_IMMEDIATE; // load CMPA immediately
 	EPwm1Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE; 
 	EPwm1Regs.AQCTLA.bit.CAU = AQ_CLEAR; // I want my PWM signal to be CLEARED to low when the carrier is increasing and the modulating signal falls below it...
 	EPwm1Regs.AQCTLA.bit.CAD = AQ_SET; // ...and to be SET to high when the carrier is decreasing and the modulating signal rises above it.
-	EPwm1Regs.AQCTLA.bit.PRD = 00; // Do nothing when TBCTR=TBPRD
-	EPwm1Regs.AQCTLA.bit.ZRO = 00; // Do nothing when TBCTR=0
 	EPwm1Regs.DBCTL.bit.HALFCYCLE = 0; // Dead-band counters clocked at TBCLK rate       
 	EPwm1Regs.DBCTL.bit.IN_MODE = 00; // Make sure the ePWM1A is used as input for the signals falling-edge delay and rising-edge delay; don't want to use ePWM1B
 	EPwm1Regs.DBCTL.bit.POLSEL = 10; // AHC dead-band mode
@@ -40,7 +38,7 @@ void initPWM() {
 	EPwm1Regs.DBRED = 60; // Use a rising-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
 	EPwm1Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
 	EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing to begin with because ePWM1 starts counting up
-	EPwm1Regs.CMPB = 750; // Start ePWM1B at CMPB_increment counting up
+	EPwm1Regs.CMPB = CMPB_increment; // Start ePWM1B at CMPB_increment counting up
 	EPwm1Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 
 

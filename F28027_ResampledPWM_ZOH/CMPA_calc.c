@@ -41,11 +41,14 @@ interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
 	Uint16 swTBCTR;
-	int16 CMPB;
+	Uint16 CMPB;
 	Uint16 newSample;
 
 	newSample=AdcResult.ADCRESULT0;
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
+
+	GpioDataRegs.GPASET.bit.GPIO29 = 1;
+
 
 	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
 	swTBCTR = EPwm1Regs.TBCTR;
@@ -61,22 +64,20 @@ interrupt void isr_CMPA_calc1(void)
 
 	CMPB=EPwm1Regs.CMPB;
 	if(CMPB==SWTBPRD) {
-		CMPB = CMPB-CMPB_increment;
-		EPwm1Regs.CMPB=CMPB;
+		EPwm1Regs.CMPB = CMPB-CMPB_increment;
 		EPwm1Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
 	} else if(CMPB==0) {
-		CMPB = CMPB+CMPB_increment;
-		EPwm1Regs.CMPB=CMPB;
+		EPwm1Regs.CMPB = CMPB+CMPB_increment;
 		EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	} else {
 		if(swCTRDIR) {
-			CMPB = CMPB+CMPB_increment;
-			EPwm1Regs.CMPB=CMPB;
+			EPwm1Regs.CMPB = CMPB+CMPB_increment;
 		} else {
-			CMPB = CMPB+CMPB_increment;
-			EPwm1Regs.CMPB=CMPB;
+			EPwm1Regs.CMPB = CMPB-CMPB_increment;
 		}
 	}
+
+	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
@@ -119,7 +120,7 @@ interrupt void isr_CMPA_calc2(void)
 			CMPB = CMPB+CMPB_increment;
 			EPwm2Regs.CMPB=CMPB;
 		} else {
-			CMPB = CMPB+CMPB_increment;
+			CMPB = CMPB-CMPB_increment;
 			EPwm2Regs.CMPB=CMPB;
 		}
 	}
@@ -134,7 +135,7 @@ interrupt void isr_CMPA_calc3(void)
 	Uint16 swCTRDIR;
 	Uint16 swTBCTR;
 	Uint16 newSample;
-	int16 CMPB;
+	Uint16 CMPB;
 
 	newSample=AdcResult.ADCRESULT2;
 	swCTRDIR = EPwm3Regs.TBSTS.bit.CTRDIR;
@@ -165,7 +166,7 @@ interrupt void isr_CMPA_calc3(void)
 			CMPB = CMPB+CMPB_increment;
 			EPwm3Regs.CMPB=CMPB;
 		} else {
-			CMPB = CMPB+CMPB_increment;
+			CMPB = CMPB-CMPB_increment;
 			EPwm3Regs.CMPB=CMPB;
 		}
 	}

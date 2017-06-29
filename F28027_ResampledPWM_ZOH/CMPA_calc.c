@@ -67,23 +67,23 @@ interrupt void isr_CMPA_calc1(void)
 	if(swCMPB==SWTBPRD) {
 		swCMPB = swCMPB-CMPB_increment;
 		EPwm1Regs.CMPB=swCMPB;
-		EPwm1Regs.ETSEL.bit.SOCASEL=0x7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+		EPwm1Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
 	} else if(swCMPB==0) {
 		swCMPB = swCMPB+CMPB_increment;
 		EPwm1Regs.CMPB=swCMPB;
-		EPwm1Regs.ETSEL.bit.SOCASEL=0x6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+		EPwm1Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	} else {
 		if(swCTRDIR) {
 			swCMPB = swCMPB+CMPB_increment;
 			EPwm1Regs.CMPB=swCMPB;
 			if(swCMPB==SWTBPRD) {
-				EPwm1Regs.ETSEL.bit.SOCASEL=0x3; // Trigger SOCA when TBCTR=TBPRD
+				EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
 			}
 		} else {
 			swCMPB = swCMPB-CMPB_increment;
 			EPwm1Regs.CMPB=swCMPB;
 			if(swCMPB==0) {
-				EPwm1Regs.ETSEL.bit.SOCASEL=0x3; // Trigger SOCA when TBCTR=0
+				EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
 			}
 		}
 	}
@@ -98,7 +98,7 @@ interrupt void isr_CMPA_calc2(void)
 	Uint16 swCTRDIR;
 	Uint16 swTBCTR;
 	Uint16 newSample;
-	int16 CMPB;
+	int16 swCMPB;
 
 	newSample=AdcResult.ADCRESULT1;
 	swCTRDIR = EPwm2Regs.TBSTS.bit.CTRDIR;
@@ -106,31 +106,37 @@ interrupt void isr_CMPA_calc2(void)
 	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
 	swTBCTR = EPwm2Regs.TBCTR;
 	if(swCTRDIR) {
-		if(newSample>swTBCTR) {
+		if(newSample>(swTBCTR+36)) {
 			EPwm2Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<swTBCTR) {
+		if(newSample<(swTBCTR-36)) {
 			EPwm2Regs.CMPA.half.CMPA=newSample;
 		}
 	}
 
-	CMPB=EPwm2Regs.CMPB;
-	if(CMPB==SWTBPRD) {
-		CMPB = CMPB-CMPB_increment;
-		EPwm2Regs.CMPB=CMPB;
-		EPwm2Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(CMPB==0) {
-		CMPB = CMPB+CMPB_increment;
-		EPwm2Regs.CMPB=CMPB;
-		EPwm2Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+	swCMPB=EPwm2Regs.CMPB;
+	if(swCMPB==SWTBPRD) {
+		swCMPB = swCMPB-CMPB_increment;
+		EPwm2Regs.CMPB=swCMPB;
+		EPwm2Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+	} else if(swCMPB==0) {
+		swCMPB = swCMPB+CMPB_increment;
+		EPwm2Regs.CMPB=swCMPB;
+		EPwm2Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	} else {
 		if(swCTRDIR) {
-			CMPB = CMPB+CMPB_increment;
-			EPwm2Regs.CMPB=CMPB;
+			swCMPB = swCMPB+CMPB_increment;
+			EPwm2Regs.CMPB=swCMPB;
+			if(swCMPB==SWTBPRD) {
+				EPwm2Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
+			}
 		} else {
-			CMPB = CMPB-CMPB_increment;
-			EPwm2Regs.CMPB=CMPB;
+			swCMPB = swCMPB-CMPB_increment;
+			EPwm2Regs.CMPB=swCMPB;
+			if(swCMPB==0) {
+				EPwm2Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
+			}
 		}
 	}
 
@@ -144,7 +150,7 @@ interrupt void isr_CMPA_calc3(void)
 	Uint16 swCTRDIR;
 	Uint16 swTBCTR;
 	Uint16 newSample;
-	Uint16 CMPB;
+	Uint16 swCMPB;
 
 	newSample=AdcResult.ADCRESULT2;
 	swCTRDIR = EPwm3Regs.TBSTS.bit.CTRDIR;
@@ -152,31 +158,37 @@ interrupt void isr_CMPA_calc3(void)
 	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
 	swTBCTR = EPwm3Regs.TBCTR;
 	if(swCTRDIR) {
-		if(newSample>swTBCTR) {
+		if(newSample>(swTBCTR+36)) {
 			EPwm3Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<swTBCTR) {
+		if(newSample<(swTBCTR-36)) {
 			EPwm3Regs.CMPA.half.CMPA=newSample;
 		}
 	}
 
-	CMPB=EPwm3Regs.CMPB;
-	if(CMPB==SWTBPRD) {
-		CMPB = CMPB-CMPB_increment;
-		EPwm3Regs.CMPB=CMPB;
-		EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(CMPB==0) {
-		CMPB = CMPB+CMPB_increment;
-		EPwm3Regs.CMPB=CMPB;
-		EPwm3Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+	swCMPB=EPwm3Regs.CMPB;
+	if(swCMPB==SWTBPRD) {
+		swCMPB = swCMPB-CMPB_increment;
+		EPwm3Regs.CMPB=swCMPB;
+		EPwm3Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+	} else if(swCMPB==0) {
+		swCMPB = swCMPB+CMPB_increment;
+		EPwm3Regs.CMPB=swCMPB;
+		EPwm3Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
 	} else {
 		if(swCTRDIR) {
-			CMPB = CMPB+CMPB_increment;
-			EPwm3Regs.CMPB=CMPB;
+			swCMPB = swCMPB+CMPB_increment;
+			EPwm3Regs.CMPB=swCMPB;
+			if(swCMPB==SWTBPRD) {
+				EPwm3Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
+			}
 		} else {
-			CMPB = CMPB-CMPB_increment;
-			EPwm3Regs.CMPB=CMPB;
+			swCMPB = swCMPB-CMPB_increment;
+			EPwm3Regs.CMPB=swCMPB;
+			if(swCMPB==0) {
+				EPwm3Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
+			}
 		}
 	}
 

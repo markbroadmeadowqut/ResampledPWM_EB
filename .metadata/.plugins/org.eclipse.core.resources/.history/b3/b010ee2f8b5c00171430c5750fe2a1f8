@@ -93,7 +93,7 @@ void initPWM() {
 	EPwm3Regs.DBFED = 60;
 	EPwm3Regs.DBRED = 60;
 	EPwm3Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
-	EPwm3Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing to begin with because ePWM3 starts counting down
+	EPwm3Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing to begin with because ePWM3 starts counting down
 	EPwm3Regs.CMPB = 2250;
 	EPwm3Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 	

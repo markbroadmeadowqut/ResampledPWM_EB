@@ -41,43 +41,52 @@ interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
 	Uint16 swTBCTR;
-	Uint16 CMPB;
+	int16 swCMPB;
 	Uint16 newSample;
-
-	newSample=AdcResult.ADCRESULT0;
-	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 
 	//GpioDataRegs.GPASET.bit.GPIO29 = 1;
 
+	newSample=AdcResult.ADCRESULT0;
 
 	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
 	swTBCTR = EPwm1Regs.TBCTR;
+	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		if(newSample>swTBCTR) {
+		if(newSample>(swTBCTR+36)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<swTBCTR) {
+		if(newSample<(swTBCTR-36)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
-		}
-	}
-
-	CMPB=EPwm1Regs.CMPB;
-	if(CMPB==SWTBPRD) {
-		EPwm1Regs.CMPB = CMPB-CMPB_increment;
-		EPwm1Regs.ETSEL.bit.SOCASEL=111; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(CMPB==0) {
-		EPwm1Regs.CMPB = CMPB+CMPB_increment;
-		EPwm1Regs.ETSEL.bit.SOCASEL=110; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
-	} else {
-		if(swCTRDIR) {
-			EPwm1Regs.CMPB = CMPB+CMPB_increment;
-		} else {
-			EPwm1Regs.CMPB = CMPB-CMPB_increment;
 		}
 	}
 
 	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+
+	swCMPB=EPwm1Regs.CMPB;
+	if(swCMPB==SWTBPRD) {
+		swCMPB = swCMPB-CMPB_increment;
+		EPwm1Regs.CMPB=swCMPB;
+		EPwm1Regs.ETSEL.bit.SOCASEL=0x7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+	} else if(swCMPB==0) {
+		swCMPB = swCMPB+CMPB_increment;
+		EPwm1Regs.CMPB=swCMPB;
+		EPwm1Regs.ETSEL.bit.SOCASEL=0x6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+	} else {
+		if(swCTRDIR) {
+			swCMPB = swCMPB+CMPB_increment;
+			EPwm1Regs.CMPB=swCMPB;
+			if(swCMPB==SWTBPRD) {
+				EPwm1Regs.ETSEL.bit.SOCASEL=0x3; // Trigger SOCA when TBCTR=TBPRD
+			}
+		} else {
+			swCMPB = swCMPB-CMPB_increment;
+			EPwm1Regs.CMPB=swCMPB;
+			if(swCMPB==0) {
+				EPwm1Regs.ETSEL.bit.SOCASEL=0x3; // Trigger SOCA when TBCTR=0
+			}
+		}
+	}
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;

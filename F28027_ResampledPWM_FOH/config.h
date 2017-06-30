@@ -16,4 +16,5 @@
 #define SWTBPHS23 (Uint16)2730  // =2*SWTBPRD/3; phase offset for both ePWM2 and ePWM3
 #define FOH_SCALE (Uint16)3000 // =TBCLK/FS; both in Hz, TBCLK=60 MHz and FS corresponding to a 50us ADC conversion time
 #define FOH_SCALE_doubled (Uint16)6000 // =TBCLK/FS; both in Hz, TBCLK=60 MHz and FS corresponding to a 50us ADC conversion time
+#define CMPB_increment (int16)750
 #endif /* CONFIG_H_ */

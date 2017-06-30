@@ -3046,3 +3046,22 @@ The release after Mars (4.5) will no longer support the deprecated usage!
 
 !ENTRY org.eclipse.cdt.core 1 0 2017-06-26 10:45:40.832
 !MESSAGE Indexed 'F28335_ResampledPWM_FOH' (15 sources, 37 headers) in 0.774 sec: 4,573 declarations; 7,840 references; 0 unresolved inclusions; 164 syntax errors; 131 unresolved names (1%)
+!SESSION 2017-06-30 09:10:27.985 -----------------------------------------------
+eclipse.buildId=4.6.0.I20160606-1100
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_AU
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2017-06-30 09:10:32.829
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2017-06-30 09:10:32.829
+!MESSAGE debugServerDir=C:/ti/ccsv7/ccs_base/DebugServer
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-06-30 09:10:44.681
+!MESSAGE Indexed 'F28027_ResampledPWM_FOH' (22 sources, 34 headers) in 4.77 sec: 4,447 declarations; 9,566 references; 1 unresolved inclusions; 110 syntax errors; 202 unresolved names (1.4%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2017-06-30 09:10:46.587
+!MESSAGE Indexed 'F28335_ResampledPWM_FOH' (15 sources, 37 headers) in 1.06 sec: 4,573 declarations; 7,844 references; 0 unresolved inclusions; 164 syntax errors; 131 unresolved names (1%)

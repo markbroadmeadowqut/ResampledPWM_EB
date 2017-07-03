@@ -2,31 +2,10 @@
 **** Build of configuration Debug for project F28027_ResampledPWM_ZOH ****
 
 "C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
-'Building file: ../ADC.c'
-'Invoking: C2000 Compiler'
-"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -mt -ml --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" -g --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="ADC.d"  "../ADC.c"
-'Finished building: ../ADC.c'
-' '
 'Building file: ../CMPA_calc.c'
 'Invoking: C2000 Compiler'
 "C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -mt -ml --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" -g --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="CMPA_calc.d"  "../CMPA_calc.c"
-"../CMPA_calc.c", line 37: warning #179-D: variable "CMPA_value" was declared but never referenced
 'Finished building: ../CMPA_calc.c'
-' '
-'Building file: ../main.c'
-'Invoking: C2000 Compiler'
-"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -mt -ml --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" -g --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
-'Finished building: ../main.c'
-' '
-'Building file: ../pwm.c'
-'Invoking: C2000 Compiler'
-"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -mt -ml --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" -g --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="pwm.d"  "../pwm.c"
-'Finished building: ../pwm.c'
-' '
-'Building file: ../timer.c'
-'Invoking: C2000 Compiler'
-"C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/bin/cl2000" -v28 -mt -ml --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="C:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-c2000_15.12.1.LTS/include" -g --diag_warning=225 --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="timer.d"  "../timer.c"
-'Finished building: ../timer.c'
 ' '
 'Building target: F28027_ResampledPWM_ZOH.out'
 'Invoking: C2000 Linker'

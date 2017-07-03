@@ -34,6 +34,7 @@ interrupt void isr_CMPA_calc(void)
 {
 	Uint16 swCTRDIR;
 	int32 swTBCTR; // Must be unsigned 32 bit integer because (swTBCTR-newSample)*FOH_SCALE could reach 12million; this exceeds the 16-bit integer size
+	int32 CMPA_value;
 	Uint16 newSample;
 
 	newSample = AdcResult.ADCRESULT0;

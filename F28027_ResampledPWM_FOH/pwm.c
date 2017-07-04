@@ -38,7 +38,7 @@ void initPWM() {
 	EPwm1Regs.DBRED = 60; // Use a rising-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
 	EPwm1Regs.ETSEL.bit.SOCAEN=1; // Enable SOCA
 	EPwm1Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing to begin with because ePWM1 starts counting up
-	EPwm1Regs.CMPB = CMPB_increment; // Start ePWM1B at CMPB_increment counting up
+	EPwm1Regs.CMPB = FOH_SCALE; // Start ePWM1B at CMPB_increment counting up
 	EPwm1Regs.ETPS.bit.SOCAPRD=01; // Generate the SOCA pulse on the first event
 
 

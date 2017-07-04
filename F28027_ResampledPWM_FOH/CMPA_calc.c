@@ -73,7 +73,7 @@ interrupt void isr_CMPA_calc1(void)
 		// a signed 32-bit format for ti is necessary. The smallest non-zero value that ti can take is round(2*3000/6000)=1,
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
-		if(ti>96) {
+		if(ti>compare_rejection_factor) {
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	} else {
@@ -82,7 +82,7 @@ interrupt void isr_CMPA_calc1(void)
 		swTBCTR = EPwm1Regs.TBCTR;
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
-		if(ti>96) {
+		if(ti>compare_rejection_factor) {
 			EPwm1Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	}
@@ -150,7 +150,7 @@ interrupt void isr_CMPA_calc2(void)
 		// a signed 32-bit format for ti is necessary. The smallest non-zero value that ti can take is round(2*3000/6000)=1,
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
-		if(ti>96) {
+		if(ti>compare_rejection_factor) {
 			EPwm2Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	} else {
@@ -159,7 +159,7 @@ interrupt void isr_CMPA_calc2(void)
 		swTBCTR = EPwm2Regs.TBCTR;
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
-		if(ti>96) {
+		if(ti>compare_rejection_factor) {
 			EPwm2Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	}
@@ -228,7 +228,7 @@ interrupt void isr_CMPA_calc3(void)
 		// a signed 32-bit format for ti is necessary. The smallest non-zero value that ti can take is round(2*3000/6000)=1,
 		// thus the effective resolution is 1*1/TBCLK=16.66nS. Range of interest of ti will be (0,3000].
 		CMPA_value=swTBCTR+ti;
-		if(ti>96) {
+		if(ti>compare_rejection_factor) {
 			EPwm3Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	} else {
@@ -237,7 +237,7 @@ interrupt void isr_CMPA_calc3(void)
 		swTBCTR = EPwm3Regs.TBCTR;
 		ti=((swTBCTR-newSample)*FOH_SCALE)/calc1_falling;
 		CMPA_value=swTBCTR-ti;
-		if(ti>96) {
+		if(ti>compare_rejection_factor) {
 			EPwm3Regs.CMPA.half.CMPA=CMPA_value;
 		}
 	}

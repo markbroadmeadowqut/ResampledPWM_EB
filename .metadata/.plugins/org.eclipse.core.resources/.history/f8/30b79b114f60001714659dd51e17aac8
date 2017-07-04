@@ -15,5 +15,5 @@
 #define SWTBPRD (Uint16)3750 // 8kHz switching frequency; need to rescale voltage fed into the ADC so that it varies between 0 and 3.022V rather than 0 amd 3.3V
 #define SWTBPHS23 (Uint16)2730  // =2*SWTBPRD/3; phase offset for both ePWM2 and ePWM3
 #define CMPB_increment (int16)750 // 12.5us resampling period, but since the triggering is internal this could be reduced further
-#define compare_rejection_factor (int16)42
+#define compare_rejection_factor (int16)15
 #endif /* CONFIG_H_ */

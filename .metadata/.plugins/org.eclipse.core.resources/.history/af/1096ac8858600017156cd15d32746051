@@ -31,7 +31,6 @@ void initCMPAcalc() {
 	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 	EALLOW;
 	GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;				// Set GPIO29 as output
-	GpioCtrlRegs.GPADIR.bit.GPIO28 = 1;				// Set GPIO29 as output
 	EDIS;
 
 }

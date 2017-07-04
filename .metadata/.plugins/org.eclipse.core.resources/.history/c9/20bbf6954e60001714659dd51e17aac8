@@ -31,7 +31,6 @@ void initCMPAcalc() {
 	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 	EALLOW;
 	GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;				// Set GPIO29 as output
-	GpioCtrlRegs.GPADIR.bit.GPIO28 = 1;				// Set GPIO29 as output
 	EDIS;
 
 }
@@ -45,6 +44,7 @@ interrupt void isr_CMPA_calc1(void)
 	int16 swCMPB;
 	Uint16 newSample;
 
+	//GpioDataRegs.GPASET.bit.GPIO29 = 1;
 
 	newSample=AdcResult.ADCRESULT0;
 
@@ -52,20 +52,16 @@ interrupt void isr_CMPA_calc1(void)
 	swTBCTR = EPwm1Regs.TBCTR;
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		if(newSample>(swTBCTR+compare_rejection_factor)) {
+		if(newSample>(swTBCTR+36)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<(swTBCTR-compare_rejection_factor)) {
+		if(newSample<(swTBCTR-36)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
 		}
 	}
 
-
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
-	GpioDataRegs.GPASET.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 
 	swCMPB=EPwm1Regs.CMPB;
 	if(swCMPB==SWTBPRD) {
@@ -110,11 +106,11 @@ interrupt void isr_CMPA_calc2(void)
 	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
 	swTBCTR = EPwm2Regs.TBCTR;
 	if(swCTRDIR) {
-		if(newSample>(swTBCTR+compare_rejection_factor)) {
+		if(newSample>(swTBCTR+36)) {
 			EPwm2Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<(swTBCTR-compare_rejection_factor)) {
+		if(newSample<(swTBCTR-36)) {
 			EPwm2Regs.CMPA.half.CMPA=newSample;
 		}
 	}
@@ -162,11 +158,11 @@ interrupt void isr_CMPA_calc3(void)
 	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
 	swTBCTR = EPwm3Regs.TBCTR;
 	if(swCTRDIR) {
-		if(newSample>(swTBCTR+compare_rejection_factor)) {
+		if(newSample>(swTBCTR+36)) {
 			EPwm3Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<(swTBCTR-compare_rejection_factor)) {
+		if(newSample<(swTBCTR-36)) {
 			EPwm3Regs.CMPA.half.CMPA=newSample;
 		}
 	}

@@ -31,7 +31,6 @@ void initCMPAcalc() {
 	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 	EALLOW;
 	GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;				// Set GPIO29 as output
-	GpioCtrlRegs.GPADIR.bit.GPIO28 = 1;				// Set GPIO29 as output
 	EDIS;
 
 }
@@ -45,6 +44,7 @@ interrupt void isr_CMPA_calc1(void)
 	int16 swCMPB;
 	Uint16 newSample;
 
+	GpioDataRegs.GPASET.bit.GPIO29 = 1;
 
 	newSample=AdcResult.ADCRESULT0;
 
@@ -54,18 +54,15 @@ interrupt void isr_CMPA_calc1(void)
 	if(swCTRDIR) {
 		if(newSample>(swTBCTR+compare_rejection_factor)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
+			GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 		}
 	} else {
 		if(newSample<(swTBCTR-compare_rejection_factor)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
+			GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 		}
 	}
 
-
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
-	GpioDataRegs.GPASET.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 
 	swCMPB=EPwm1Regs.CMPB;
 	if(swCMPB==SWTBPRD) {

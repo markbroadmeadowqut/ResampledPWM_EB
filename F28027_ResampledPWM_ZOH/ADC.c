@@ -45,20 +45,12 @@ void initADC() {
 	AdcRegs.INTSEL3N4.bit.INT3SEL = 0x02; // EOC2 (associated with SOC2) is the trigger for ADCINT3
 
 	AdcRegs.ADCINTSOCSEL1.bit.SOC0 = 0x00; // Don't allow any ADCINTs to trigger SOC0
-	AdcRegs.ADCINTSOCSEL1.bit.SOC1 = 0x00; // Don't allow any ADCINTs to trigger SOC1
-	AdcRegs.ADCINTSOCSEL1.bit.SOC2 = 0x00; // Don't allow any ADCINTs to trigger SOC2
 
 	AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x06; // 6 cycles is the shortest allowed window size for the ADC; I'll have to do some testing of the GTAO output characteristics to see if 6 cycles is long enough to charge the ADC capacitor completely (i.e. long enough to get an accurate conversion)
-	AdcRegs.ADCSOC1CTL.bit.ACQPS = 0x06;
-	AdcRegs.ADCSOC2CTL.bit.ACQPS = 0x06;
 
 	AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC0
-	AdcRegs.ADCSOC1CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC1
-	AdcRegs.ADCSOC2CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC2
 
 	AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x05; // Trigger SOC0 (which feeds EPWM1) from EPWM1, ADCSOCA
-	AdcRegs.ADCSOC1CTL.bit.TRIGSEL = 0x07; // Trigger SOC1 (which feeds EPWM2) from EPWM2, ADCSOCA
-	AdcRegs.ADCSOC2CTL.bit.TRIGSEL = 0x09; // Trigger SOC2 (which feeds EPWM3) from EPWM3, ADCSOCA
 
 
 	EDIS;

@@ -5,7 +5,6 @@
 #include "DSP28x_Project.h"
 #include "config.h"
 #include "pwm.h"
-#include "timer.h"
 #include "ADC.h"
 #include "CMPA_calc.h"
 

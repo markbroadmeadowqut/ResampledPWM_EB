@@ -10,29 +10,26 @@
 #include <math.h>
 
 interrupt void isr_CMPA_calc1(void);
-interrupt void isr_CMPA_calc2(void);
-interrupt void isr_CMPA_calc3(void);
+
+volatile Uint16 count=0;
+volatile Uint16 table[1024]={2076,2565,3397,3397,3507,3507,2841,2386,1716,926,667,192,192,516,743,1486};
+
 
 
 void initCMPAcalc() {
 	EALLOW;
-	PieVectTable.ADCINT1 = &isr_CMPA_calc1;
-	PieVectTable.ADCINT2 = &isr_CMPA_calc2;
-	PieVectTable.ADCINT3 = &isr_CMPA_calc3;
+	PieVectTable.EPWM1_INT = &isr_CMPA_calc1;
 	EDIS;
 
-	PieCtrlRegs.PIEIER1.bit.INTx1 = 1;     // Enable ADCINT1
-	PieCtrlRegs.PIEIER1.bit.INTx2 = 1;     // Enable ADCINT2
-	PieCtrlRegs.PIEIER10.bit.INTx3 = 1;     // Enable ADCINT3
-	IER |= M_INT1;
-	IER |= M_INT10;
+	PieCtrlRegs.PIEIER3.bit.INTx1 = 1;     // Enable ePWM1_int
+	IER |= M_INT3;
 
 	//DEBUG
 	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 	EALLOW;
 	GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;				// Set GPIO29 as output
-	GpioCtrlRegs.GPADIR.bit.GPIO28 = 1;				// Set GPIO29 as output
 	EDIS;
+
 
 }
 
@@ -40,162 +37,18 @@ void initCMPAcalc() {
 #pragma CODE_SECTION(isr_CMPA_calc1, "ramfuncs");
 interrupt void isr_CMPA_calc1(void)
 {
-	Uint16 swCTRDIR;
-	Uint16 swTBCTR;
-	int16 swCMPB;
-	Uint16 newSample;
 
+	EPwm1Regs.CMPA.half.CMPA=table[count&0xF];
 
-	newSample=AdcResult.ADCRESULT0;
-
-	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
-	swTBCTR = EPwm1Regs.TBCTR;
-	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
-	if(swCTRDIR) {
-		if(newSample>(swTBCTR+compare_rejection_factor)) {
-			EPwm1Regs.CMPA.half.CMPA=newSample;
-		}
+	// Make Epwm1B be set or cleared by the fourth bit of count
+	if(count&0x8) {
+		EPwm1Regs.AQCTLB.bit.ZRO=1; // Clear ePWM1B at the next trough
 	} else {
-		if(newSample<(swTBCTR-compare_rejection_factor)) {
-			EPwm1Regs.CMPA.half.CMPA=newSample;
-		}
-	}
+		EPwm1Regs.AQCTLB.bit.ZRO=2; // Set ePWM1B at the next trough
+    }
 
-
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
-	GpioDataRegs.GPASET.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
-
-	swCMPB=EPwm1Regs.CMPB;
-	if(swCMPB==SWTBPRD) {
-		swCMPB = swCMPB-CMPB_increment;
-		EPwm1Regs.CMPB=swCMPB;
-		EPwm1Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(swCMPB==0) {
-		swCMPB = swCMPB+CMPB_increment;
-		EPwm1Regs.CMPB=swCMPB;
-		EPwm1Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
-	} else {
-		if(swCTRDIR) {
-			swCMPB = swCMPB+CMPB_increment;
-			EPwm1Regs.CMPB=swCMPB;
-			if(swCMPB==SWTBPRD) {
-				EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
-			}
-		} else {
-			swCMPB = swCMPB-CMPB_increment;
-			EPwm1Regs.CMPB=swCMPB;
-			if(swCMPB==0) {
-				EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
-			}
-		}
-	}
+	count=count+1;
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
-}
-
-#pragma CODE_SECTION(isr_CMPA_calc2, "ramfuncs");
-interrupt void isr_CMPA_calc2(void)
-{
-	Uint16 swCTRDIR;
-	Uint16 swTBCTR;
-	Uint16 newSample;
-	int16 swCMPB;
-
-	newSample=AdcResult.ADCRESULT1;
-	swCTRDIR = EPwm2Regs.TBSTS.bit.CTRDIR;
-
-	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
-	swTBCTR = EPwm2Regs.TBCTR;
-	if(swCTRDIR) {
-		if(newSample>(swTBCTR+compare_rejection_factor)) {
-			EPwm2Regs.CMPA.half.CMPA=newSample;
-		}
-	} else {
-		if(newSample<(swTBCTR-compare_rejection_factor)) {
-			EPwm2Regs.CMPA.half.CMPA=newSample;
-		}
-	}
-
-	swCMPB=EPwm2Regs.CMPB;
-	if(swCMPB==SWTBPRD) {
-		swCMPB = swCMPB-CMPB_increment;
-		EPwm2Regs.CMPB=swCMPB;
-		EPwm2Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(swCMPB==0) {
-		swCMPB = swCMPB+CMPB_increment;
-		EPwm2Regs.CMPB=swCMPB;
-		EPwm2Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
-	} else {
-		if(swCTRDIR) {
-			swCMPB = swCMPB+CMPB_increment;
-			EPwm2Regs.CMPB=swCMPB;
-			if(swCMPB==SWTBPRD) {
-				EPwm2Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
-			}
-		} else {
-			swCMPB = swCMPB-CMPB_increment;
-			EPwm2Regs.CMPB=swCMPB;
-			if(swCMPB==0) {
-				EPwm2Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
-			}
-		}
-	}
-
-	// Acknowledge this interrupt to receive more interrupts from group 1
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
-}
-
-#pragma CODE_SECTION(isr_CMPA_calc3, "ramfuncs");
-interrupt void isr_CMPA_calc3(void)
-{
-	Uint16 swCTRDIR;
-	Uint16 swTBCTR;
-	Uint16 newSample;
-	Uint16 swCMPB;
-
-	newSample=AdcResult.ADCRESULT2;
-	swCTRDIR = EPwm3Regs.TBSTS.bit.CTRDIR;
-
-	// Check if the edge will be missed by writing the new compare value; if it will then don't write it
-	swTBCTR = EPwm3Regs.TBCTR;
-	if(swCTRDIR) {
-		if(newSample>(swTBCTR+compare_rejection_factor)) {
-			EPwm3Regs.CMPA.half.CMPA=newSample;
-		}
-	} else {
-		if(newSample<(swTBCTR-compare_rejection_factor)) {
-			EPwm3Regs.CMPA.half.CMPA=newSample;
-		}
-	}
-
-	swCMPB=EPwm3Regs.CMPB;
-	if(swCMPB==SWTBPRD) {
-		swCMPB = swCMPB-CMPB_increment;
-		EPwm3Regs.CMPB=swCMPB;
-		EPwm3Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(swCMPB==0) {
-		swCMPB = swCMPB+CMPB_increment;
-		EPwm3Regs.CMPB=swCMPB;
-		EPwm3Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
-	} else {
-		if(swCTRDIR) {
-			swCMPB = swCMPB+CMPB_increment;
-			EPwm3Regs.CMPB=swCMPB;
-			if(swCMPB==SWTBPRD) {
-				EPwm3Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
-			}
-		} else {
-			swCMPB = swCMPB-CMPB_increment;
-			EPwm3Regs.CMPB=swCMPB;
-			if(swCMPB==0) {
-				EPwm3Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
-			}
-		}
-	}
-
-	// Acknowledge this interrupt to receive more interrupts from group 10
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP10;
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;
 }

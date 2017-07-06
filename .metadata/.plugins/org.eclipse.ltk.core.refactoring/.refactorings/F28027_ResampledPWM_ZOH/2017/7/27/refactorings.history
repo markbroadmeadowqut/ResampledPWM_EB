@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;F28027_ResampledPWM_ZOH/dds.c&apos; to &apos;table.c&apos;" description="Rename resource &apos;dds.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="dds.c" name="table.c" stamp="1499156585125" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;F28027_ResampledPWM_ZOH/dds.h&apos; to &apos;table.h&apos;" description="Rename resource &apos;dds.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="dds.h" name="table.h" stamp="1499156593710" updateReferences="true"/>
+</session>

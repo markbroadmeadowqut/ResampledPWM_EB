@@ -5,7 +5,6 @@
 #include "DSP28x_Project.h"
 #include "config.h"
 #include "pwm.h"
-#include "ADC.h"
 #include "CMPA_calc.h"
 
 
@@ -35,9 +34,6 @@ void init() {
 	// INITIALISE PERIPHERALS
 	initCMPAcalc();
 	initPWM();
-	//inittriggerSOC0();
-	initADC();
-	//initTimer(); // Important that timer is activated AFTER the ADC and PWM have been initialised
 
 	PieCtrlRegs.PIECTRL.bit.ENPIE = 1;     // Enable the PIE block
 

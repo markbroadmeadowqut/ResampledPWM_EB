@@ -11,7 +11,8 @@
 
 
 volatile Uint16 count=0;
-Uint16 tanle[32]={1976,2310,2702,2845,3212,3212,3508,3508,3544,3530,3314,3268,2922,2784,2401,2071,1732,1399,1161,739,678,341,341,188,188,275,275,613,613,1076,1308,1637}
+Uint16 table[16]={2076,2565,3397,3397,3507,3507,2841,2386,1716,926,667,192,192,516,743,1486};
+
 interrupt void isr_CMPA_calc1(void);
 
 
@@ -40,10 +41,10 @@ interrupt void isr_CMPA_calc1(void)
 {
 
 
-    EPwm1Regs.CMPA.half.CMPA=table[count&0x1F];
+    EPwm1Regs.CMPA.half.CMPA=table[count&0xF];
 
     // Make Epwm1B be set or cleared by the fourth bit of count
-    if(count&0x10) {
+    if(count&0x8) {
         EPwm1Regs.AQCTLB.bit.ZRO=1; // Clear ePWM1B at the next trough
     } else {
         EPwm1Regs.AQCTLB.bit.ZRO=2; // Set ePWM1B at the next trough

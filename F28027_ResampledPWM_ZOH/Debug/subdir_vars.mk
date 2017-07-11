@@ -10,33 +10,45 @@ CMD_SRCS += \
 ../DSP2802x_Headers_nonBIOS.cmd 
 
 C_SRCS += \
+../ADC.c \
 ../CMPA_calc.c \
 ../main.c \
-../pwm.c 
+../pwm.c \
+../timer.c 
 
 C_DEPS += \
+./ADC.d \
 ./CMPA_calc.d \
 ./main.d \
-./pwm.d 
+./pwm.d \
+./timer.d 
 
 OBJS += \
+./ADC.obj \
 ./CMPA_calc.obj \
 ./main.obj \
-./pwm.obj 
+./pwm.obj \
+./timer.obj 
 
 OBJS__QUOTED += \
+"ADC.obj" \
 "CMPA_calc.obj" \
 "main.obj" \
-"pwm.obj" 
+"pwm.obj" \
+"timer.obj" 
 
 C_DEPS__QUOTED += \
+"ADC.d" \
 "CMPA_calc.d" \
 "main.d" \
-"pwm.d" 
+"pwm.d" \
+"timer.d" 
 
 C_SRCS__QUOTED += \
+"../ADC.c" \
 "../CMPA_calc.c" \
 "../main.c" \
-"../pwm.c" 
+"../pwm.c" \
+"../timer.c" 
 
 

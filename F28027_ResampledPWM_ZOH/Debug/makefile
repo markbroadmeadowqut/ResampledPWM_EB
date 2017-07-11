@@ -10,9 +10,11 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./ADC.obj" \
 "./CMPA_calc.obj" \
 "./main.obj" \
 "./pwm.obj" \
+"./timer.obj" \
 "./DSP2802x_common/source/DSP2802x_Adc.obj" \
 "./DSP2802x_common/source/DSP2802x_CSMPasswords.obj" \
 "./DSP2802x_common/source/DSP2802x_CodeStartBranch.obj" \
@@ -181,9 +183,9 @@ F28027_ResampledPWM_ZOH.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "CMPA_calc.obj" "main.obj" "pwm.obj" "DSP2802x_common\source\DSP2802x_Adc.obj" "DSP2802x_common\source\DSP2802x_CSMPasswords.obj" "DSP2802x_common\source\DSP2802x_CodeStartBranch.obj" "DSP2802x_common\source\DSP2802x_Comp.obj" "DSP2802x_common\source\DSP2802x_CpuTimers.obj" "DSP2802x_common\source\DSP2802x_DBGIER.obj" "DSP2802x_common\source\DSP2802x_DisInt.obj" "DSP2802x_common\source\DSP2802x_ECap.obj" "DSP2802x_common\source\DSP2802x_EPwm.obj" "DSP2802x_common\source\DSP2802x_Gpio.obj" "DSP2802x_common\source\DSP2802x_I2C.obj" "DSP2802x_common\source\DSP2802x_MemCopy.obj" "DSP2802x_common\source\DSP2802x_OscComp.obj" "DSP2802x_common\source\DSP2802x_PieCtrl.obj" "DSP2802x_common\source\DSP2802x_SWPrioritizedDefaultIsr.obj" "DSP2802x_common\source\DSP2802x_SWPrioritizedPieVect.obj" "DSP2802x_common\source\DSP2802x_Sci.obj" "DSP2802x_common\source\DSP2802x_Spi.obj" "DSP2802x_common\source\DSP2802x_SysCtrl.obj" "DSP2802x_common\source\DSP2802x_TempSensorConv.obj" "DSP2802x_common\source\DSP2802x_usDelay.obj" 
+	-$(RM) "ADC.obj" "CMPA_calc.obj" "main.obj" "pwm.obj" "timer.obj" "DSP2802x_common\source\DSP2802x_Adc.obj" "DSP2802x_common\source\DSP2802x_CSMPasswords.obj" "DSP2802x_common\source\DSP2802x_CodeStartBranch.obj" "DSP2802x_common\source\DSP2802x_Comp.obj" "DSP2802x_common\source\DSP2802x_CpuTimers.obj" "DSP2802x_common\source\DSP2802x_DBGIER.obj" "DSP2802x_common\source\DSP2802x_DisInt.obj" "DSP2802x_common\source\DSP2802x_ECap.obj" "DSP2802x_common\source\DSP2802x_EPwm.obj" "DSP2802x_common\source\DSP2802x_Gpio.obj" "DSP2802x_common\source\DSP2802x_I2C.obj" "DSP2802x_common\source\DSP2802x_MemCopy.obj" "DSP2802x_common\source\DSP2802x_OscComp.obj" "DSP2802x_common\source\DSP2802x_PieCtrl.obj" "DSP2802x_common\source\DSP2802x_SWPrioritizedDefaultIsr.obj" "DSP2802x_common\source\DSP2802x_SWPrioritizedPieVect.obj" "DSP2802x_common\source\DSP2802x_Sci.obj" "DSP2802x_common\source\DSP2802x_Spi.obj" "DSP2802x_common\source\DSP2802x_SysCtrl.obj" "DSP2802x_common\source\DSP2802x_TempSensorConv.obj" "DSP2802x_common\source\DSP2802x_usDelay.obj" 
 	-$(RM) "DSP2802x_headers\source\DSP2802x_GlobalVariableDefs.obj" 
-	-$(RM) "CMPA_calc.d" "main.d" "pwm.d" "DSP2802x_common\source\DSP2802x_Adc.d" "DSP2802x_common\source\DSP2802x_Comp.d" "DSP2802x_common\source\DSP2802x_CpuTimers.d" "DSP2802x_common\source\DSP2802x_ECap.d" "DSP2802x_common\source\DSP2802x_EPwm.d" "DSP2802x_common\source\DSP2802x_Gpio.d" "DSP2802x_common\source\DSP2802x_I2C.d" "DSP2802x_common\source\DSP2802x_MemCopy.d" "DSP2802x_common\source\DSP2802x_OscComp.d" "DSP2802x_common\source\DSP2802x_PieCtrl.d" "DSP2802x_common\source\DSP2802x_SWPrioritizedDefaultIsr.d" "DSP2802x_common\source\DSP2802x_SWPrioritizedPieVect.d" "DSP2802x_common\source\DSP2802x_Sci.d" "DSP2802x_common\source\DSP2802x_Spi.d" "DSP2802x_common\source\DSP2802x_SysCtrl.d" "DSP2802x_common\source\DSP2802x_TempSensorConv.d" "DSP2802x_headers\source\DSP2802x_GlobalVariableDefs.d" 
+	-$(RM) "ADC.d" "CMPA_calc.d" "main.d" "pwm.d" "timer.d" "DSP2802x_common\source\DSP2802x_Adc.d" "DSP2802x_common\source\DSP2802x_Comp.d" "DSP2802x_common\source\DSP2802x_CpuTimers.d" "DSP2802x_common\source\DSP2802x_ECap.d" "DSP2802x_common\source\DSP2802x_EPwm.d" "DSP2802x_common\source\DSP2802x_Gpio.d" "DSP2802x_common\source\DSP2802x_I2C.d" "DSP2802x_common\source\DSP2802x_MemCopy.d" "DSP2802x_common\source\DSP2802x_OscComp.d" "DSP2802x_common\source\DSP2802x_PieCtrl.d" "DSP2802x_common\source\DSP2802x_SWPrioritizedDefaultIsr.d" "DSP2802x_common\source\DSP2802x_SWPrioritizedPieVect.d" "DSP2802x_common\source\DSP2802x_Sci.d" "DSP2802x_common\source\DSP2802x_Spi.d" "DSP2802x_common\source\DSP2802x_SysCtrl.d" "DSP2802x_common\source\DSP2802x_TempSensorConv.d" "DSP2802x_headers\source\DSP2802x_GlobalVariableDefs.d" 
 	-$(RM) "DSP2802x_common\source\DSP2802x_CSMPasswords.d" "DSP2802x_common\source\DSP2802x_CodeStartBranch.d" "DSP2802x_common\source\DSP2802x_DBGIER.d" "DSP2802x_common\source\DSP2802x_DisInt.d" "DSP2802x_common\source\DSP2802x_usDelay.d" 
 	-@echo 'Finished clean'
 	-@echo ' '

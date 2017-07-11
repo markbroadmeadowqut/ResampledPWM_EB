@@ -5,6 +5,13 @@
 SHELL = cmd.exe
 
 # Each subdirectory must supply rules for building sources it contributes
+ADC.obj: ../ADC.c $(GEN_OPTS) | $(GEN_HDRS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C2000 Compiler'
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/bin/cl2000" -v28 -ml -mt --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="ADC.d" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 CMPA_calc.obj: ../CMPA_calc.c $(GEN_OPTS) | $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C2000 Compiler'
@@ -23,6 +30,13 @@ pwm.obj: ../pwm.c $(GEN_OPTS) | $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C2000 Compiler'
 	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/bin/cl2000" -v28 -ml -mt --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="pwm.d" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+timer.obj: ../timer.c $(GEN_OPTS) | $(GEN_HDRS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C2000 Compiler'
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/bin/cl2000" -v28 -ml -mt --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/include" --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_headers/include" --include_path="H:/Git/ResampledPWM_EB/F28027_ResampledPWM_ZOH/DSP2802x_common/source" --include_path="C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="timer.d" $(GEN_OPTS__FLAG) "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

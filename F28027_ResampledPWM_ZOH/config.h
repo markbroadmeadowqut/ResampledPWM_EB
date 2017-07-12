@@ -14,6 +14,5 @@
 // Choosing to name all variables that represent values in the ePWM1 registers with the prefix sw meaning "software" due to the fact that strings like "TBPRD" have already been given a definition in the TI header files
 #define SWTBPRD (Uint16)3750 // 8kHz switching frequency; need to rescale voltage fed into the ADC so that it varies between 0 and 3.022V rather than 0 amd 3.3V
 #define SWTBPHS23 (Uint16)2730  // =2*SWTBPRD/3; phase offset for both ePWM2 and ePWM3
-#define FOH_SCALE (Uint16)3000 // =TBCLK/FS; both in Hz, TBCLK=60 MHz and FS corresponding to a 50us ADC conversion time
-#define FOH_SCALE_doubled (Uint16)6000 // =TBCLK/FS; both in Hz, TBCLK=60 MHz and FS corresponding to a 50us ADC conversion time
+#define compare_rejection_factor (Uint16)42
 #endif /* CONFIG_H_ */

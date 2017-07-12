@@ -42,11 +42,11 @@ interrupt void isr_CMPA_calc(void)
 	swTBCTR = EPwm1Regs.TBCTR;
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		if(newSample>(swTBCTR+36)) {
+		if(newSample>(swTBCTR+compare_rejection_factor)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<(swTBCTR-36)) {
+		if(newSample<(swTBCTR-compare_rejection_factor)) {
 			EPwm1Regs.CMPA.half.CMPA=newSample;
 		}
 	}
@@ -55,11 +55,11 @@ interrupt void isr_CMPA_calc(void)
 	swTBCTR = EPwm2Regs.TBCTR;
 	swCTRDIR = EPwm2Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		if(newSample>(swTBCTR+36)) {
+		if(newSample>(swTBCTR+compare_rejection_factor)) {
 			EPwm2Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<(swTBCTR-36)) {
+		if(newSample<(swTBCTR-compare_rejection_factor)) {
 			EPwm2Regs.CMPA.half.CMPA=newSample;
 		}
 	}
@@ -68,11 +68,11 @@ interrupt void isr_CMPA_calc(void)
 	swTBCTR = EPwm3Regs.TBCTR;
 	swCTRDIR = EPwm3Regs.TBSTS.bit.CTRDIR;
 	if(swCTRDIR) {
-		if(newSample>(swTBCTR+36)) {
+		if(newSample>(swTBCTR+compare_rejection_factor)) {
 			EPwm3Regs.CMPA.half.CMPA=newSample;
 		}
 	} else {
-		if(newSample<(swTBCTR-36)) {
+		if(newSample<(swTBCTR-compare_rejection_factor)) {
 			EPwm3Regs.CMPA.half.CMPA=newSample;
 		}
 	}

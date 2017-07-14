@@ -38,8 +38,8 @@ void initPWM() {
 	EPwm1Regs.DBCTL.bit.IN_MODE = 00; // Make sure the ePWM1A is used as input for the signals falling-edge delay and rising-edge delay; don't want to use ePWM1B
 	EPwm1Regs.DBCTL.bit.POLSEL = 10; // AHC dead-band mode
 	EPwm1Regs.DBCTL.bit.OUT_MODE = 11; // AHC dead-band mode
-	EPwm1Regs.DBFED = 60; // Use a falling-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
-	EPwm1Regs.DBRED = 60; // Use a rising-edge delay of 1us (=DEL*TBCLK=60*(1/60e6))
+	EPwm1Regs.DBFED = 1; // Use a falling-edge delay of (1/60)us (=DEL*TBCLK=60*(1/60e6))
+	EPwm1Regs.DBRED = 1; // Use a rising-edge delay of (1/60)us (=DEL*TBCLK=60*(1/60e6))
 
 	EPwm2Regs.TBPRD = SWTBPRD;
 	EPwm2Regs.TBPHS.half.TBPHS = SWTBPHS23;
@@ -63,8 +63,8 @@ void initPWM() {
 	EPwm2Regs.DBCTL.bit.IN_MODE = 00;
 	EPwm2Regs.DBCTL.bit.POLSEL = 10;
 	EPwm2Regs.DBCTL.bit.OUT_MODE = 11;
-	EPwm2Regs.DBFED = 60;
-	EPwm2Regs.DBRED = 60;
+	EPwm2Regs.DBFED = 1;
+	EPwm2Regs.DBRED = 1;
 
 	EPwm3Regs.TBPRD = SWTBPRD;
 	EPwm3Regs.TBPHS.half.TBPHS = SWTBPHS23;
@@ -88,8 +88,8 @@ void initPWM() {
 	EPwm3Regs.DBCTL.bit.IN_MODE = 00;
 	EPwm3Regs.DBCTL.bit.POLSEL = 10;
 	EPwm3Regs.DBCTL.bit.OUT_MODE = 11;
-	EPwm3Regs.DBFED = 60;
-	EPwm3Regs.DBRED = 60;
+	EPwm3Regs.DBFED = 1;
+	EPwm3Regs.DBRED = 1;
 	
 	
 	

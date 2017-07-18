@@ -42,18 +42,11 @@ interrupt void isr_CMPA_calc1(void)
 {
 	Uint16 swCTRDIR;
 
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
+	//GpioDataRegs.GPASET.bit.GPIO29 = 1;
 
 	// Write the new sample to shadow of CMPA
 	EPwm1Regs.CMPA.half.CMPA=AdcResult.ADCRESULT0;
 
-	// Write the new sample to CMPA (active)
-	//CMPA=CMPA+75;
-	//if(CMPA==SWTBPRD) {
-	//	CMPA=0;
-	//	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	//}
-	//EPwm1Regs.CMPA.half.CMPA=CMPA;
 
 	// Change CMPB value for ePWM1
 	swCTRDIR=EPwm1Regs.TBSTS.bit.CTRDIR;
@@ -68,7 +61,7 @@ interrupt void isr_CMPA_calc1(void)
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
+	//GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
 
 
 }

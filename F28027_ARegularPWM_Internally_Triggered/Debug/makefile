@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS
+CG_TOOL_ROOT := C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -150,32 +150,32 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-F28027_ARegularPWM_Internally_Triggered.out \
+F28027_ResampledPWM_FOH.out \
 
 EXE_OUTPUTS__QUOTED += \
-"F28027_ARegularPWM_Internally_Triggered.out" \
+"F28027_ResampledPWM_FOH.out" \
 
 BIN_OUTPUTS += \
-F28027_ARegularPWM_Internally_Triggered.hex \
+F28027_ResampledPWM_FOH.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"F28027_ARegularPWM_Internally_Triggered.hex" \
+"F28027_ResampledPWM_FOH.hex" \
 
 
 # All Target
-all: F28027_ARegularPWM_Internally_Triggered.out
+all: F28027_ResampledPWM_FOH.out
 
 # Tool invocations
-F28027_ARegularPWM_Internally_Triggered.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+F28027_ResampledPWM_FOH.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C2000 Linker'
-	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt -g --display_error_number --diag_warning=225 --diag_wrap=off -z -m"F28027_ARegularPWM_Internally_Triggered.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/lib" -i"C:/ti/controlSUITE/device_support/f2802x/v129/DSP2802x_headers/cmd" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="F28027_ARegularPWM_Internally_Triggered_linkInfo.xml" --rom_model -o "F28027_ARegularPWM_Internally_Triggered.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/bin/cl2000" -v28 -ml -mt -g --display_error_number --diag_warning=225 --diag_wrap=off -z -m"F28027_ResampledPWM_FOH.map" --stack_size=0x300 --warn_sections -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/lib" -i"C:/ti/controlSUITE/device_support/f2802x/v129/DSP2802x_headers/cmd" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/include" --reread_libs --diag_wrap=off --display_error_number --xml_link_info="F28027_ResampledPWM_FOH_linkInfo.xml" --rom_model -o "F28027_ResampledPWM_FOH.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-F28027_ARegularPWM_Internally_Triggered.hex: $(EXE_OUTPUTS)
+F28027_ResampledPWM_FOH.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: C2000 Hex Utility'
-	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/hex2000"  -o "F28027_ARegularPWM_Internally_Triggered.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.3.LTS/bin/hex2000"  -o "F28027_ResampledPWM_FOH.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 

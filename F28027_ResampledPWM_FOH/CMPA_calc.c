@@ -49,7 +49,7 @@ interrupt void isr_CMPA_calc(void)
 	//CpuTimer0.InterruptCount++;
 
 	//DEBUG
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
+	//GpioDataRegs.GPASET.bit.GPIO29 = 1;
 	// Update CMPA register for ePWM1
 	swCTRDIR = EPwm1Regs.TBSTS.bit.CTRDIR;
 	calc1_rising=newSample-prevSample-FOH_SCALE;  // If I wanted I could probably squeeze another bit of precision into ti by multiplying (newSample-prevSample) by 2; overflow of 2^15 should still be impossible...

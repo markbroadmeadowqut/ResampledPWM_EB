@@ -12,7 +12,7 @@ void initTimer() {
 
 	InitCpuTimers();
 	//double timerPrd = 1000000/(double)fs;
-	ConfigCpuTimer(&CpuTimer0, 60, 10); 			// Set clock to 60MHz, timer period to 10us
+	ConfigCpuTimer(&CpuTimer0, 60, 12.5); 			// Set clock to 60MHz, timer period to 10us
 	CpuTimer0Regs.TCR.all = 0x4001; 				// Start CPU Timer0. Use write-only instruction to set TSS bit = 0
 
 	//DEBUG

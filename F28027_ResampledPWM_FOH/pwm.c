@@ -91,7 +91,30 @@ void initPWM() {
 	EPwm3Regs.DBFED = 1;
 	EPwm3Regs.DBRED = 1;
 	
-	
+	EPwm4Regs.TBPRD = 450;
+	EPwm4Regs.TBPHS.half.TBPHS = 0;
+	EPwm4Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
+	EPwm4Regs.TBCTL.bit.PHSDIR = 0; // After the sync event, ePWM3 will count down from phase SWTBPHS23
+	EPwm4Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+	EPwm4Regs.TBCTL.bit.PRDLD = TB_IMMEDIATE;
+	EPwm4Regs.TBCTL.bit.HSPCLKDIV = TB_DIV1;
+	EPwm4Regs.TBCTL.bit.CLKDIV = TB_DIV1;
+	EPwm4Regs.TBCTL.bit.SYNCOSEL = 00;
+	EPwm4Regs.CMPCTL.bit.SHDWAMODE = CC_IMMEDIATE;
+	EPwm4Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
+	EPwm4Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;
+	EPwm4Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;
+	EPwm4Regs.AQCTLA.bit.CAU = AQ_CLEAR;
+	EPwm4Regs.AQCTLA.bit.CAD = AQ_SET;
+	EPwm4Regs.AQCTLA.bit.PRD = 00;
+	EPwm4Regs.AQCTLA.bit.ZRO = 00;
+	EPwm4Regs.DBCTL.bit.HALFCYCLE = 0;
+	EPwm4Regs.DBCTL.bit.IN_MODE = 00;
+	EPwm4Regs.DBCTL.bit.POLSEL = 10;
+	EPwm4Regs.DBCTL.bit.OUT_MODE = 11;
+	EPwm4Regs.DBFED = 1;
+	EPwm4Regs.DBRED = 1;
+    EPwm4Regs.CMPA.half.CMPA=225;
 	
 	GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 01;	// EPWM1A on GPIO0
 	GpioCtrlRegs.GPADIR.bit.GPIO0 = 1;	// Output on GPIO0
@@ -105,6 +128,8 @@ void initPWM() {
 	GpioCtrlRegs.GPADIR.bit.GPIO4 = 1;	// Output on GPIO4
 	GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 01;	// EPWM3B on GPIO5
 	GpioCtrlRegs.GPADIR.bit.GPIO5 = 1;	// Output on GPIO5
+    GpioCtrlRegs.GPAMUX1.bit.GPIO6 = 01;    // EPWM4A on GPIO6
+    GpioCtrlRegs.GPADIR.bit.GPIO6 = 1;  // Output on GPIO6
 
 	GpioCtrlRegs.GPADIR.bit.GPIO16 = 1;	// Output on GPIO16
 
@@ -122,7 +147,7 @@ void pwmStart() {
 	EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
 	EPwm2Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
 	EPwm3Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
-
+    EPwm4Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN;
 
 
 	// Initiate a software-sync event on ePWM1; the pulse will carry through to ePWM2 and ePWM3 also, forcing them to be synchronized with ePWM1

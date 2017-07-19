@@ -38,7 +38,7 @@ void init() {
 	initPWM();
 	//inittriggerSOC0();
 	initADC();
-	initTimer(); // Important that timer is activated AFTER the ADC and PWM have been initialised
+	//initTimer(); // Important that timer is activated AFTER the ADC and PWM have been initialised
 
 	PieCtrlRegs.PIECTRL.bit.ENPIE = 1;     // Enable the PIE block
 

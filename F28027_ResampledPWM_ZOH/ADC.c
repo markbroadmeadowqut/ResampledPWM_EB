@@ -54,16 +54,16 @@ void initADC() {
 	AdcRegs.ADCSAMPLEMODE.bit.SIMULEN12 = 0;
 	AdcRegs.ADCSAMPLEMODE.bit.SIMULEN14 = 0;
 	AdcRegs.ADCINTSOCSEL1.bit.SOC0 = 0x00; // Don't allow any ADCINTs to trigger SOC0
-	AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x01; // Use CPU Timer 0 as the trigger for SOC0
+	//AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x01; // Use CPU Timer 0 as the trigger for SOC0
 	AdcRegs.ADCSOC0CTL.bit.CHSEL = 0x09; // Associate input channel ADCINB1 with SOC0
 	AdcRegs.ADCSOC0CTL.bit.ACQPS = 0x06; // 6 cycles is the shortest allowed window size for the ADC; I'll have to do some testing of the GTAO output characteristics to see if 6 cycles is long enough to charge the ADC capacitor completely (i.e. long enough to get an accurate conversion)
 
-	//// Use XINT2 as SOC0 trigger
-	//AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x04;
-	//GpioCtrlRegs.GPAQSEL2.bit.GPIO28 = 01; // Synchronise XINT2 using three periods of SYSCLKOUT
-	//XIntruptRegs.XINT2CR.bit.POLARITY = 0x04; // trigger XINT2 on both a rising and falling edge
-	//GpioIntRegs.GPIOXINT2SEL.bit.GPIOSEL = 0x1C; // Assign XINT2 to GPIO28
-	//XIntruptRegs.XINT2CR.bit.ENABLE = 1; // enable XINT2
+	// Use XINT2 as SOC0 trigger
+	AdcRegs.ADCSOC0CTL.bit.TRIGSEL = 0x04;
+	GpioCtrlRegs.GPAQSEL2.bit.GPIO28 = 01; // Synchronise XINT2 using three periods of SYSCLKOUT
+	XIntruptRegs.XINT2CR.bit.POLARITY = 0x04; // trigger XINT2 on both a rising and falling edge
+	GpioIntRegs.GPIOXINT2SEL.bit.GPIOSEL = 0x1C; // Assign XINT2 to GPIO28
+	XIntruptRegs.XINT2CR.bit.ENABLE = 1; // enable XINT2
 
 	EDIS;
 }

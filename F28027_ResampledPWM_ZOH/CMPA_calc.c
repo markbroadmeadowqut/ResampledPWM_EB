@@ -61,36 +61,30 @@ interrupt void isr_CMPA_calc1(void)
 		}
 	}
 
-
-	GpioDataRegs.GPASET.bit.GPIO29 = 1;
-	GpioDataRegs.GPASET.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;
-	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;
-
 	swCMPB=EPwm1Regs.CMPB;
-	if(swCMPB==SWTBPRD) {
-		swCMPB = swCMPB-CMPB_increment;
-		EPwm1Regs.CMPB=swCMPB;
-		EPwm1Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
-	} else if(swCMPB==0) {
-		swCMPB = swCMPB+CMPB_increment;
-		EPwm1Regs.CMPB=swCMPB;
-		EPwm1Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
-	} else {
-		if(swCTRDIR) {
-			swCMPB = swCMPB+CMPB_increment;
-			EPwm1Regs.CMPB=swCMPB;
-			if(swCMPB==SWTBPRD) {
-				EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
-			}
-		} else {
-			swCMPB = swCMPB-CMPB_increment;
-			EPwm1Regs.CMPB=swCMPB;
-			if(swCMPB==0) {
-				EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
-			}
-		}
-	}
+    if(swCMPB==SWTBPRD) {
+        swCMPB = swCMPB-CMPB_increment;
+        EPwm1Regs.CMPB=swCMPB;
+        EPwm1Regs.ETSEL.bit.SOCASEL=7; // Trigger SOCA when CTR=CMPB and timer is decrementing, because CTRDIR is about to change to zero
+    } else if(swCMPB==0) {
+        swCMPB = swCMPB+CMPB_increment;
+        EPwm1Regs.CMPB=swCMPB;
+        EPwm1Regs.ETSEL.bit.SOCASEL=6; // Trigger SOCA when CTR=CMPB and timer is incrementing, because CTRDIR is about to change to one
+    } else {
+        if(swCTRDIR) {
+            swCMPB = swCMPB+CMPB_increment;
+            EPwm1Regs.CMPB=swCMPB;
+            if(swCMPB==SWTBPRD) {
+                EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=TBPRD
+            }
+        } else {
+            swCMPB = swCMPB-CMPB_increment;
+            EPwm1Regs.CMPB=swCMPB;
+            if(swCMPB==0) {
+                EPwm1Regs.ETSEL.bit.SOCASEL=3; // Trigger SOCA when TBCTR=0
+            }
+        }
+    }
 
 	// Acknowledge this interrupt to receive more interrupts from group 1
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;

@@ -91,7 +91,7 @@ void initPWM() {
 	EPwm3Regs.DBFED = 1;
 	EPwm3Regs.DBRED = 1;
 	
-	EPwm4Regs.TBPRD = 450;
+	EPwm4Regs.TBPRD = FOH_SCALE/2;
 	EPwm4Regs.TBPHS.half.TBPHS = 0;
 	EPwm4Regs.TBCTL.bit.CTRMODE = TB_FREEZE;
 	EPwm4Regs.TBCTL.bit.PHSDIR = 0; // After the sync event, ePWM3 will count down from phase SWTBPHS23
@@ -114,7 +114,7 @@ void initPWM() {
 	EPwm4Regs.DBCTL.bit.OUT_MODE = 11;
 	EPwm4Regs.DBFED = 1;
 	EPwm4Regs.DBRED = 1;
-    EPwm4Regs.CMPA.half.CMPA=225;
+    EPwm4Regs.CMPA.half.CMPA=FOH_SCALE/4;
 	
 	GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 01;	// EPWM1A on GPIO0
 	GpioCtrlRegs.GPADIR.bit.GPIO0 = 1;	// Output on GPIO0
